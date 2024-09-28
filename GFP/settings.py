@@ -52,11 +52,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'GFP.urls'
+LOGIN_URL = 'login' #Informa ao Django que, ao acessar uma view que requer autenticação como uma viwe protegida por @login_required, o usuário deve ser redirecionado a pagina de loguin caso não esteja logado.
+LOGIN_REDIRECT_URL = '/historico/dashboard/' #Direciona para pagina do dashbord automaticamente após o login. 
+
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/ 'templates'], # Definindo para o Django que ele deve buscar os templates no diretorio base depois em templates.
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
