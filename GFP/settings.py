@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'conta',  
-    'historico',
+    'dados',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +53,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'GFP.urls'
 LOGIN_URL = 'login' #Informa ao Django que, ao acessar uma view que requer autenticação como uma viwe protegida por @login_required, o usuário deve ser redirecionado a pagina de loguin caso não esteja logado.
-LOGIN_REDIRECT_URL = '/historico/dashboard/' #Direciona para pagina do dashbord automaticamente após o login. 
+LOGIN_REDIRECT_URL = '/dados/dashboard/' #Direciona para pagina do dashbord automaticamente após o login. 
 
 
 TEMPLATES = [
