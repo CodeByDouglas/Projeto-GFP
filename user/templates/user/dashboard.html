@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Dashboard, {{ user.username }}!</h1>
+    <p>Aqui você pode visualizar suas informações protegidas.</p>
+    
+</body>
+</html>
+<!--
+{{ user.username }}:
+Esta é uma variável de contexto que o Django disponibiliza automaticamente quando um usuário está autenticado. O objeto user contém informações sobre o usuário atualmente logado, e a propriedade username é o nome de usuário desse usuário.
+Nesse caso, o código está exibindo uma mensagem de boas-vindas personalizada para o usuário que fez login. A expressão {{ user.username }} será substituída pelo nome do usuário logado quando a página for renderizada.-->

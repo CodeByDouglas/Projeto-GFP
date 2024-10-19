@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'user/cadastro.css' %}">
+    <title>Cadastro</title>
+</head>
+<body>
+    <div class="container">
+        <div class="cadastro-title">
+            <h1>Cadastro</h1>
+        </div>
+        <div class="input-group">
+            <div class="input-box">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="confirmar-btn">Confirmar</button>
+                </form>
+            </div>
+            <div class="input-box">
+                {% if messages %}
+                <div class="menssage">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
