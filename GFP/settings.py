@@ -7,7 +7,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-q#zsx304w(sd$-4&2h7x&9d4a^etgz)0ko%s_6$2xad(k-e&3t'
@@ -27,10 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user', # garante que o Django reconheça a aplicação user e que todos os modelos, views, etc. dessa aplicação estejam disponíveis para uso no projeto.
+    'user', #?garante que o Django reconheça a aplicação user e que todos os modelos, views, etc. dessa aplicação estejam disponíveis para uso no projeto.
 ]
 
-#personalizar o comportamento padrão de autenticação no Django, dizendo ao sistema para usar o nosso modelo Usuario em vez do modelo de usuário padrão do Django.
+#?personalizar o comportamento padrão de autenticação no Django, dizendo ao sistema para usar o nosso modelo Usuario em vez do modelo de usuário padrão do Django.
 #*!definir o AUTH_USER_MODEL antes de rodar qualquer migração no projeto, porque trocar o modelo de usuário depois de rodar as migrações pode gerar conflitos.
 AUTH_USER_MODEL = 'user.Usuario'
 
@@ -66,7 +65,6 @@ WSGI_APPLICATION = 'GFP.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -77,7 +75,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -96,9 +93,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'pt-br' #
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -108,20 +104,18 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "user/static",  # Diretório estático da aplicação 'user'
+    BASE_DIR / "user/static",  #? Diretório estático da aplicação 'user'
 ]
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/dashboard/'  # Redireciona para a página do dashboard após o login
-LOGIN_URL = '/login/'  #Indica para onde e direcionado um usuário que tentar entra em uma página que necessita de login
+LOGIN_REDIRECT_URL = '/dashboard/'  #?Redireciona para a página do dashboard após o login
+LOGIN_URL = '/login/'  #?Indica para onde e direcionado um usuário que tentar entra em uma página que necessita de login
 
 

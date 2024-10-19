@@ -5,7 +5,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'user/style.css' %}">  <!-- passa o caminho para a pasta 'user'onde se localiza o CSS-->
+    <link rel="stylesheet" href="{% static 'user/style.css' %}">  <!--? passa o caminho para a pasta 'user'onde se localiza o CSS-->
     <title>Tela de login</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
         </div>
         <div class="form">
             <form method="post">
-                {% csrf_token %} <!--Garente que o post feito seja reconhecido pela autenticação interna do django-->
+                {% csrf_token %} <!--?Garente que o post feito seja reconhecido pela autenticação interna do django-->
                 <div class="form-header">
                     <div class="Title">
                         <img src="{% static 'user/account.png' %}" alt="Ícone de login" class="login-image">  <!-- passa o caminho para a pasta 'user' onde está a imagem--> 
