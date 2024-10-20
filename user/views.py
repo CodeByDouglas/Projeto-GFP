@@ -1,4 +1,6 @@
-
+from .models import Renda
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from .models import Despesa
 from django.contrib.auth import login, authenticate #? login: Faz o login de um usuário autenticado, estabelecendo uma sessão.authenticate: Verifica as credenciais de um usuário (nome de usuário e senha).
 from .models import Usuario  #? Importa o modelo Usuario definido no seu projeto para manipular os dados de usuários
@@ -139,3 +141,16 @@ def lancar_despesa_comum(request):
     else:
         form = DespesaComumForm()
     return render(request, 'user/despesa_comum.html', {'form': form})
+
+def perfil(request):
+    user = request.user
+    rendas = user.rendas.all()  # Pega todas as rendas associadas ao usuário
+    context = {
+        'user': user,
+        'rendas': rendas,  # Passa a lista de rendas para o contexto
+    }
+    return render(request, 'user/perfil.html', context)
+
+
+
+

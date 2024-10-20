@@ -1,6 +1,7 @@
 from django import forms 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import Usuario, Renda, Despesa
+from django.contrib.auth.models import User
 
 class CadastroForm(UserCreationForm):
     nome_real = forms.CharField(max_length=100, required=True, label="Nome")
@@ -105,3 +106,9 @@ class DespesaComumForm(forms.ModelForm):
     class Meta:
         model = Despesa
         fields = ['nome_despesa', 'valor_despesa', 'categoria_despesa', ]
+
+
+
+
+
+

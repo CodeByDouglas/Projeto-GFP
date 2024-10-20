@@ -21,4 +21,8 @@ urlpatterns = [
     path('despesa-parcelada/', views.lancar_despesa_parcelada, name='despesa_parcelada'),
     
     path('despesa-comum/', views.lancar_despesa_comum, name='despesa_comum'),
+    
+    path('perfil/', views.perfil, name='perfil'),
+    
+    
 ]
