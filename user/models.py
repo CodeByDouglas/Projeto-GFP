@@ -1,3 +1,5 @@
+from django.core.validators import MinValueValidator
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser #?Importa o modelo AbstractUser, que é uma classe base usada para criar um modelo de usuário personalizado no Django.
 
@@ -23,7 +25,7 @@ class Renda(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='rendas')
     
     nome_renda = models.CharField(max_length=50)
-    valor_renda = models.DecimalField(max_digits=10, decimal_places=2)
+    valor_renda = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     
     #? def __str__(self): Define a representação em string do objeto Renda, retornando o nome da renda e o valor dela.
     def __str__(self):
@@ -53,12 +55,13 @@ class Despesa(models.Model):
     ]
     #? usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='despesas'): Relaciona a despesa a um usuário. Isso significa que cada despesa está vinculada a um usuário específico
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='despesas')
+    nome_despesa= models.CharField(max_length=50)
     tipo_despesa = models.CharField(max_length=10, choices=TIPO_DESPESA_CHOICES)
-    valor_despesa = models.DecimalField(max_digits=10, decimal_places=2)
-    data_despesa = models.DateField()
+    valor_despesa = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0)])
+    data_despesa = models.DateField(default=timezone.now)
     categoria_despesa = models.CharField(max_length=20, choices=CATEGORIA_DESPESA_CHOICES)
     data_final = models.DateField(null=True, blank=True)  # Para despesas fixas
-    parcelas = models.IntegerField(null=True, blank=True)  # Para despesas parceladas
-
+    parcelas = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])  # Para despesas parceladas
+    
     def __str__(self):
-        return f"{self.categoria_despesa} - {self.valor_despesa}"
+        return f"{self.nome_despesa} - {self.categoria_despesa}"

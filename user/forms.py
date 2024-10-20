@@ -1,6 +1,6 @@
 from django import forms 
 from django.contrib.auth.forms import UserCreationForm
-from .models import Usuario, Renda
+from .models import Usuario, Renda, Despesa
 
 class CadastroForm(UserCreationForm):
     nome_real = forms.CharField(max_length=100, required=True, label="Nome")
@@ -24,6 +24,7 @@ class CadastroForm(UserCreationForm):
         Renda.objects.create(usuario=user, nome_renda=nome_renda, valor_renda=valor_renda)
         
         return user
+'''
 
 #*from django import forms:
 #?Importa o módulo de formulários do Django, que fornece classes e ferramentas para criação e manipulação de formulários.
@@ -87,4 +88,20 @@ class CadastroForm(UserCreationForm):
 #*return user:
 
 #?Retorna a instância do usuário após salvar todos os dados no banco de dados.
-#*Esse código faz a integração completa entre o formulário de cadastro de usuário e o modelo de usuário, além de associar as rendas ao usuário durante o processo de criação.
+#*Esse código faz a integração completa entre o formulário de cadastro de usuário e o modelo de usuário, além de associar as rendas ao usuário durante o processo de criação.'''
+
+
+class DespesaFixaForm(forms.ModelForm):
+    class Meta:
+        model = Despesa
+        fields = ['nome_despesa', 'valor_despesa', 'categoria_despesa', 'data_final']
+        
+class DespesaParceladaForm(forms.ModelForm):
+    class Meta:
+        model = Despesa
+        fields = ['nome_despesa', 'valor_despesa', 'categoria_despesa' ,'parcelas']
+
+class DespesaComumForm(forms.ModelForm):
+    class Meta:
+        model = Despesa
+        fields = ['nome_despesa', 'valor_despesa', 'categoria_despesa', ]

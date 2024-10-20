@@ -1,7 +1,9 @@
+
+from .models import Despesa
 from django.contrib.auth import login, authenticate #? login: Faz o login de um usuário autenticado, estabelecendo uma sessão.authenticate: Verifica as credenciais de um usuário (nome de usuário e senha).
 from .models import Usuario  #? Importa o modelo Usuario definido no seu projeto para manipular os dados de usuários
 from django.contrib import messages #? Utiliza o sistema de mensagens do Django para enviar notificações (sucesso, erro, etc.) ao usuário.
-from .forms import CadastroForm #? Importa o formulário de cadastro definido no seu projeto, usado para registrar novos usuários.
+from .forms import CadastroForm,DespesaFixaForm, DespesaParceladaForm, DespesaComumForm #? Importa o formulário de cadastro definido no seu projeto, usado para registrar novos usuários e também os formularios de lançamentos de gastos.
 from django.contrib.auth.decorators import login_required #? Decorador que impede o acesso a uma view por usuários não autenticados, redirecionando-os para a página de login.
 from django.contrib.auth.views import LoginView #? Importa a view genérica de login do Django, que facilita a criação de uma página de login.
 from django.urls import reverse_lazy #? Função que permite obter URLs de maneira atrasada (lazy), útil para redirecionamentos após operações como login ou logout.
@@ -41,7 +43,7 @@ def cadastrar_usuario(request):
         form = CadastroForm()
     
     return render(request, 'user/cadastro.html', {'form': form})
-
+'''
 #//TODO: Função cadastrar_usuario(request)
 #* def cadastrar_usuario(request)::
 #? Define a função que lida com a lógica de cadastro de usuários, recebendo a requisição HTTP como argumento.
@@ -94,3 +96,46 @@ def cadastrar_usuario(request):
 #? Renderiza a página de cadastro (cadastro.html), passando o formulário para o template.
 
 #//TODO:Esse fluxo cuida tanto da exibição do formulário quanto da validação e criação de um novo usuário, além de realizar o login automaticamente após o cadastro.
+'''
+@login_required
+def lancar_despesa_fixa(request):
+    if request.method == 'POST':
+        form = DespesaFixaForm(request.POST)
+        if form.is_valid():
+            despesa = form.save(commit=False)  
+            despesa.usuario = request.user
+            despesa.tipo_despesa = 'fixa'      
+            despesa.save()             
+            messages.success(request, 'Despesa lançada com sucesso!')
+    else:
+        form = DespesaFixaForm()
+    return render(request, 'user/despesa_fixa.html', {'form': form})
+
+@login_required
+def lancar_despesa_parcelada(request):
+    if request.method == 'POST':
+        form = DespesaParceladaForm(request.POST)
+        if form.is_valid():
+            despesa = form.save(commit=False)  
+            despesa.usuario = request.user
+            despesa.tipo_despesa = 'parcelada'      
+            despesa.save()             
+            messages.success(request, 'Despesa lançada com sucesso!')
+    
+    else:
+        form = DespesaParceladaForm()
+    return render(request, 'user/despesa_parcelada.html', {'form': form})
+
+@login_required
+def lancar_despesa_comum(request):
+    if request.method == 'POST':
+        form = DespesaComumForm(request.POST)
+        if form.is_valid():
+            despesa = form.save(commit=False)  
+            despesa.usuario = request.user
+            despesa.tipo_despesa = 'ocasional'      
+            despesa.save()             
+            messages.success(request, 'Despesa lançada com sucesso!')
+    else:
+        form = DespesaComumForm()
+    return render(request, 'user/despesa_comum.html', {'form': form})
