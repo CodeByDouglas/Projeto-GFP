@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>Perfil de Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -16,21 +16,110 @@
                         <h3 class="mt-2">{{ user.username }}</h3>
                     </div>
                     <h4>Definições do Perfil</h4>
-                    <p><strong>Nome Completo:</strong> {{ user.nome_real }}</p>
-                    <p><strong>Senha:</strong> ******** <a href="#" class="text-decoration-none">Alterar</a></p>
+                    <p><strong>Nome Completo:</strong> {{ user.nome_real }} 
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarNomeModal">Alterar</a>
+                    </p>
+                    <p><strong>Senha:</strong> ******** 
+                        <a  href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarSenhaModal">Alterar</a>
+                    </p>
+                    <div>
+                        <div>
+                            <h5>Rendas</h5>
+                            {% if rendas %}
+                                {% for renda in rendas %}
+                                    <p><strong>{{ renda.nome_renda }}:</strong> R$ {{ renda.valor_renda }} 
+                                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarRendaModal_{{ renda.id }}">Alterar</a>
+                                    </p>
+                                {% endfor %}
+                            {% else %}
+                                <p>Você não tem rendas cadastradas.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <h5>Rendas</h5>
-                    {% if rendas %}
-                        {% for renda in rendas %}
-                            <p><strong>{{ renda.nome_renda }}:</strong> R$ {{ renda.valor_renda }}</p>
-                        {% endfor %}
-                    {% else %}
-                        <p>Você não tem rendas cadastradas.</p>
-                    {% endif %}
-
+    <!-- Modal para Alteração de Nome -->
+    <div class="modal fade" id="alterarNomeModal" tabindex="-1" aria-labelledby="alterarNomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alterarNomeModalLabel">Alterar Nome Completo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'alterar_nome' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nome_real" class="form-label">Nome Completo Atual</label>
+                            <input type="text" name="nome_real" class="form-control" id="nome_real" value="{{ user.nome_real }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal para Alteração de Senha -->
+    <div class="modal fade" id="alterarSenhaModal" tabindex="-1" aria-labelledby="alterarSenhaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alterarSenhaModalLabel">Alterar Senha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'alterar_senha' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="old_password" class="form-label">Senha Atual</label>
+                            <input type="password" name="old_password" class="form-control" id="old_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password1" class="form-label">Nova Senha</label>
+                            <input type="password" name="new_password1" class="form-control" id="new_password1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password2" class="form-label">Confirme a Nova Senha</label>
+                            <input type="password" name="new_password2" class="form-control" id="new_password2" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modais para alterar renda -->
+    {% for renda in rendas %}
+    <div class="modal fade" id="alterarRendaModal_{{ renda.id }}" tabindex="-1" aria-labelledby="alterarRendaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alterarRendaModalLabel">Alterar Renda: {{ renda.nome_renda }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'alterar_renda' renda.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nome_renda_{{ renda.id }}" class="form-label">Nome da Renda</label>
+                            <input type="text" name="nome_renda" class="form-control" id="nome_renda_{{ renda.id }}" value="{{ renda.nome_renda }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="valor_renda_{{ renda.id }}" class="form-label">Valor da Renda</label>
+                            <input type="number" name="valor_renda" step="0.01" class="form-control" id="valor_renda_{{ renda.id }}" value="{{ renda.valor_renda }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

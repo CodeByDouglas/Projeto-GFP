@@ -1,3 +1,6 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
 from .models import Renda
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -145,6 +148,9 @@ def lancar_despesa_comum(request):
 def perfil(request):
     user = request.user
     rendas = user.rendas.all()  # Pega todas as rendas associadas ao usuário
+    if rendas.count() < 4:
+        for i in range(4 - rendas.count()):
+            Renda.objects.create(usuario=user, nome_renda=f'Renda {rendas.count() + i + 1}', valor_renda=0)
     context = {
         'user': user,
         'rendas': rendas,  # Passa a lista de rendas para o contexto
@@ -152,5 +158,36 @@ def perfil(request):
     return render(request, 'user/perfil.html', context)
 
 
+@login_required
+def alterar_nome(request):
+    if request.method == 'POST':
+        novo_nome = request.POST.get('nome_real')
+        if novo_nome:
+            # Atualiza o nome do usuário logado
+            request.user.nome_real = novo_nome
+            request.user.save()
+            messages.success(request, 'Nome alterado com sucesso!')
+            return redirect('perfil')  # Redireciona para a página de perfil
+        else:
+            messages.error(request, 'O nome não pode estar vazio.')
+            return redirect('perfil')  # Redireciona para a página de perfil se houver um erro
 
+    # Se não for uma requisição POST, redireciona para a página de perfil
+    return redirect('perfil')
 
+@login_required
+def alterar_renda(request, renda_id):
+    renda = get_object_or_404(Renda, id=renda_id, usuario=request.user)
+
+    if request.method == 'POST':
+        nome_renda = request.POST.get('nome_renda')
+        valor_renda = request.POST.get('valor_renda')
+
+        # Atualiza os campos da renda
+        renda.nome_renda = nome_renda
+        renda.valor_renda = valor_renda
+        renda.save()
+
+        return redirect('perfil')  # Redireciona para a página de perfil
+
+    return render(request, 'user/perfil.html', {'renda': renda})

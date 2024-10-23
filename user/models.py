@@ -24,8 +24,8 @@ class Renda(models.Model):
     #*!O parâmetro related_name='rendas' permite que acessemos as rendas de um usuário usando user.rendas.all(). 
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='rendas')
     
-    nome_renda = models.CharField(max_length=50)
-    valor_renda = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    nome_renda = models.CharField(max_length=50, blank=True, null=True)
+    valor_renda = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], blank=True, null=True)
     
     #? def __str__(self): Define a representação em string do objeto Renda, retornando o nome da renda e o valor dela.
     def __str__(self):
