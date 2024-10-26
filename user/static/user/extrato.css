@@ -1,0 +1,45 @@
+
+body {
+    background-color: #182933;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.table {
+    background-color: #fafafa;
+}
+
+.table thead {
+    background-color: #28a745;
+    color: white;
+}
+
+.text-danger {
+    color: red;
+}
+
+tfoot td {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #218838;
+}

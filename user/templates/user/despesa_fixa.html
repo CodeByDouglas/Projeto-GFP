@@ -1,28 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Despesa Fixa</title>
+    <title>Despesas Fixas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'user/despesas.css' %}">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Despesa Fixa</h2>
-
-        <!-- Exibe mensagens de sucesso/erro -->
-        {% if messages %}
-            <div class="alert alert-success">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <!-- Formulário de despesa fixa -->
-        <div class="card shadow-sm">
+        <div class="card mx-auto" style="max-width: 400px;">
             <div class="card-body">
-                <form method="POST" id="despesa-form" novalidate>
+                <h3 class="card-title text-center">Despesas Fixas</h3>
+
+                <!-- Exibe mensagens de sucesso/erro -->
+                {% if messages %}
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="POST" novalidate id="despesa-form">
                     {% csrf_token %}
                     <div class="mb-3">
                         {{ form.nome_despesa.label_tag }}
@@ -30,35 +31,21 @@
                     </div>
                     <div class="mb-3">
                         {{ form.valor_despesa.label_tag }}
-                        <input type="number" step="0.01" id="id_valor_despesa" name="valor_despesa" class="form-control" min="0" required>
+                        {{ form.valor_despesa }}
                     </div>
                     <div class="mb-3">
                         {{ form.categoria_despesa.label_tag }}
                         {{ form.categoria_despesa }}
                     </div>
                     <div class="mb-3">
-                        <!-- Substituído por um campo de data -->
-                        <label for="data_final" class="form-label">Data Final</label>
-                        <input type="date" id="data_final" name="data_final" class="form-control" required>
+                        {{ form.data_final.label_tag }}
+                        {{ form.data_final }}
                     </div>
 
-                    <!-- Botão reduzido para 50% de largura -->
-                    <button type="submit" class="btn btn-success w-50 mx-auto d-block">Lançar Despesa Fixa</button>
+                    <button type="submit" class="btn btn-success w-100">Lançar Despesa</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- Validação JavaScript para garantir que valor_despesa seja positivo -->
-    <script>
-        document.getElementById('despesa-form').addEventListener('submit', function(event) {
-            var valorDespesa = document.getElementById('id_valor_despesa').value;
-
-            if (valorDespesa < 0) {
-                event.preventDefault(); // Impede o envio do formulário
-                alert("O valor da despesa não pode ser negativo.");
-            }
-        });
-    </script>
 </body>
 </html>

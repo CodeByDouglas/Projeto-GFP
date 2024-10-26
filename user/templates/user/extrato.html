@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato de Despesas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'user/extrato.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Extrato de Despesas</h2>
+                <form method="get">
+                    <div class="mb-3">
+                        <label for="ano" class="form-label">Ano</label>
+                        <select id="ano" name="ano" class="form-select">
+                            <option value="">Selecione</option>
+                            {% for ano in anos %}
+                                <option value="{{ ano.year }}" {% if ano.year|stringformat:"d" == ano_selecionado|stringformat:"d" %}selected{% endif %}>{{ ano.year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mes" class="form-label">Mês</label>
+                        <select id="mes" name="mes" class="form-select">
+                            <option value="">Selecione</option>
+                            {% for mes in meses %}
+                                <option value="{{ mes }}" {% if mes|stringformat:"d" == mes_selecionado|stringformat:"d" %}selected{% endif %}>{{ mes }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria</label>
+                        <select id="categoria" name="categoria" class="form-select">
+                            <option value="">Selecione</option>
+                            {% for categoria in categorias %}
+                                <option value="{{  value }}" {% if categoria.id == categoria_selecionada %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Filtrar Extrato</button>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for despesa in despesas %}
+                            <tr>
+                                <td>{{ despesa.data_despesa|date:"d M Y" }}</td>
+                                <td>{{ despesa.nome_despesa }}</td>
+                                <td>{{ despesa.categoria_despesa }}</td>
+                                <td class="text-danger">R$ {{ despesa.valor_despesa|floatformat:2 }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Nenhuma despesa encontrada.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td class="text-danger"><strong>R$ {{ total_despesas|floatformat:2 }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

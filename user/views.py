@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Sum
 from .models import Renda
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -191,3 +191,43 @@ def alterar_renda(request, renda_id):
         return redirect('perfil')  # Redireciona para a página de perfil
 
     return render(request, 'user/perfil.html', {'renda': renda})
+
+
+def trilha_view(request):
+    return render(request, 'user/trilha.html')
+
+
+
+@login_required
+def extrato_view(request):
+    despesas = Despesa.objects.filter(usuario=request.user).order_by('-data_despesa')
+    
+    # Filtragem por ano, mês e categoria, caso os parâmetros estejam presentes
+    ano = request.GET.get('ano')
+    mes = request.GET.get('mes')
+    categoria = request.GET.get('categoria')
+
+    if ano:
+        despesas = despesas.filter(data_despesa__year=ano)
+    if mes:
+        despesas = despesas.filter(data_despesa__month=mes)
+    if categoria:
+        despesas = despesas.filter(categoria_despesa=categoria)
+
+    # Calcular o total de despesas
+    total_despesas = despesas.aggregate(total=Sum('valor_despesa'))['total'] or 0
+
+    # Coletar opções de filtragem para o formulário
+    anos = Despesa.objects.filter(usuario=request.user).dates('data_despesa', 'year')
+    meses = range(1, 13)
+    categorias = Despesa.CATEGORIA_DESPESA_CHOICES
+
+    context = {
+        'despesas': despesas,
+        'total_despesas': total_despesas,
+        'anos': anos,
+        'meses': meses,
+        'categorias': categorias,
+    }
+    return render(request, 'user/extrato.html', context)
+

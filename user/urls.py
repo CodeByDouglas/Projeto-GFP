@@ -23,6 +23,7 @@ urlpatterns = [
     path('despesa-comum/', views.lancar_despesa_comum, name='despesa_comum'),
     
     path('perfil/', views.perfil, name='perfil'),
+    
     path('alterar-senha/', auth_views.PasswordChangeView.as_view(
         template_name='alterar_senha.html',
         success_url='/perfil/'
@@ -31,7 +32,12 @@ urlpatterns = [
      path('alterar-nome/', views.alterar_nome, name='alterar_nome'),
 
     path('perfil/', views.perfil, name='perfil'),
+    
     path('alterar-renda/<int:renda_id>/', views.alterar_renda, name='alterar_renda'),
+    
+    path('trilha/', views.trilha_view, name='trilha'),
+    
+    path('extrato/', views.extrato_view, name='extrato'),
 
      
      

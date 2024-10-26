@@ -1,79 +1,51 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Despesas Parceladas</title>
+    <title>Prestações</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'user/despesas.css' %}">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Despesas Parceladas</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form method="POST" action="" id="despesa-form">
-                    {% csrf_token %}
-                    
-                    <!-- Nome da Despesa -->
-                    <div class="mb-3">
-                        <label for="nome_despesa" class="form-label">Nome da Despesa</label>
-                        <input type="text" class="form-control" id="nome_despesa" name="nome_despesa" required>
-                    </div>
-                    
-                    <!-- Valor da Despesa -->
-                    <div class="mb-3">
-                        <label for="valor_despesa" class="form-label">Valor da Despesa</label>
-                        <input type="number" step="0.01" class="form-control" id="valor_despesa" name="valor_despesa" min="0" required>
-                    </div>
-                    
-                    <!-- Categoria da Despesa -->
-                    <div class="mb-3">
-                        <label for="categoria_despesa" class="form-label">Categoria da Despesa</label>
-                        <select class="form-select" id="categoria_despesa" name="categoria_despesa" required>
-                            <option value="mercado">Mercado</option>
-                            <option value="transporte">Transporte</option>
-                            <option value="saude">Saúde</option>
-                            <option value="educacao">Educação</option>
-                            <option value="habitacao">Habitação</option>
-                            <option value="pessoais">Despesas Pessoais</option>
-                            <option value="lazer">Lazer</option>
-                            <option value="outros">Outros</option>
-                        </select>
-                    </div>
+        <div class="card mx-auto" style="max-width: 400px;">
+            <div class="card-body">
+                <h3 class="card-title text-center">Prestações</h3>
 
-                    <!-- Parcelas -->
-                    <div class="mb-3">
-                        <label for="parcelas" class="form-label">Quantidade de Parcelas</label>
-                        <input type="number" class="form-control" id="parcelas" name="parcelas" min="0" required>
-                    </div>
-
-                    <!-- Botão de submissão -->
-                    <button type="submit" class="btn btn-success w-100">Lançar Despesa Parcelada</button>
-
-                </form>
-
+                <!-- Exibe mensagens de sucesso/erro -->
                 {% if messages %}
-                <div class="alert alert-success">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
                 {% endif %}
+
+                <form method="POST" novalidate id="despesa-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.nome_despesa.label_tag }}
+                        {{ form.nome_despesa }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.valor_despesa.label_tag }}
+                        {{ form.valor_despesa }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.categoria_despesa.label_tag }}
+                        {{ form.categoria_despesa }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.parcelas.label_tag }}
+                        {{ form.parcelas }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Lançar Despesa</button>
+                </form>
             </div>
         </div>
     </div>
-
-    <!-- Validação JavaScript para garantir valores positivos -->
-    <script>
-        document.getElementById('despesa-form').addEventListener('submit', function(event) {
-            var valorDespesa = document.getElementById('valor_despesa').value;
-            var parcelas = document.getElementById('parcelas').value;
-
-            if (valorDespesa < 0 || parcelas < 0) {
-                event.preventDefault(); // Impede o envio do formulário
-                alert("Os valores não podem ser negativos.");
-            }
-        });
-    </script>
 </body>
 </html>
