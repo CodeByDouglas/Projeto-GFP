@@ -214,6 +214,11 @@ def extrato_view(request):
     if categoria:
         despesas = despesas.filter(categoria_despesa=categoria)
 
+    # Definir o nome da categoria selecionada
+    categoria_selecionada = categoria if categoria else "Geral"
+    ano_selecionado = int(ano) if ano else None
+    mes_selecionado = int(mes) if mes else None
+
     # Calcular o total de despesas
     total_despesas = despesas.aggregate(total=Sum('valor_despesa'))['total'] or 0
 
@@ -228,6 +233,21 @@ def extrato_view(request):
         'anos': anos,
         'meses': meses,
         'categorias': categorias,
+        'categoria_selecionada': categoria_selecionada,
+        'ano_selecionado': ano_selecionado,
+        'mes_selecionado': mes_selecionado,
+        
     }
     return render(request, 'user/extrato.html', context)
+
+@login_required
+def delete_despesas(request):
+    if request.method == 'POST':
+        despesas_ids = request.POST.getlist('despesas_selecionadas')
+        if despesas_ids:
+            Despesa.objects.filter(id__in=despesas_ids, usuario=request.user).delete()
+            messages.success(request, 'Despesas excluídas com sucesso!')
+        else:
+            messages.warning(request, 'Nenhuma despesa selecionada para exclusão.')
+    return redirect('extrato')  # redireciona de volta para a página de extrato
 

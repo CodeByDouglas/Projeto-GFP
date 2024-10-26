@@ -7,17 +7,31 @@
     <title>Extrato de Despesas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'user/extrato.css' %}">
+    <style>
+        .table-container {
+            max-height: 400px; /* Defina a altura fixa desejada */
+            overflow-y: auto; /* Permite rolagem vertical */
+        }
+
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background: #d1e7dd; /* Cor de fundo do cabeçalho para melhorar visibilidade */
+            z-index: 1;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
+        <h2>Extrato de Despesas</h2>
         <div class="row">
+            <!-- Coluna dos filtros -->
             <div class="col-md-4">
-                <h2>Extrato de Despesas</h2>
-                <form method="get">
+                <form method="get" class="mb-4">
                     <div class="mb-3">
                         <label for="ano" class="form-label">Ano</label>
                         <select id="ano" name="ano" class="form-select">
-                            <option value="">Selecione</option>
+                            <option value="">Geral</option>
                             {% for ano in anos %}
                                 <option value="{{ ano.year }}" {% if ano.year|stringformat:"d" == ano_selecionado|stringformat:"d" %}selected{% endif %}>{{ ano.year }}</option>
                             {% endfor %}
@@ -26,7 +40,7 @@
                     <div class="mb-3">
                         <label for="mes" class="form-label">Mês</label>
                         <select id="mes" name="mes" class="form-select">
-                            <option value="">Selecione</option>
+                            <option value="">Geral</option>
                             {% for mes in meses %}
                                 <option value="{{ mes }}" {% if mes|stringformat:"d" == mes_selecionado|stringformat:"d" %}selected{% endif %}>{{ mes }}</option>
                             {% endfor %}
@@ -35,49 +49,69 @@
                     <div class="mb-3">
                         <label for="categoria" class="form-label">Categoria</label>
                         <select id="categoria" name="categoria" class="form-select">
-                            <option value="">Selecione</option>
-                            {% for categoria in categorias %}
-                                <option value="{{  value }}" {% if categoria.id == categoria_selecionada %}selected{% endif %}>{{ label }}</option>
+                            <option value="">Geral</option>
+                            {% for value, nome in categorias %}
+                                <option value="{{ value }}" {% if value == categoria_selecionada %}selected{% endif %}>{{ nome }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <button type="submit" class="btn btn-success w-100">Filtrar Extrato</button>
                 </form>
             </div>
+            <!-- Coluna da lista de despesas -->
             <div class="col-md-8">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-success">
-                        <tr>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Categoria</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for despesa in despesas %}
-                            <tr>
-                                <td>{{ despesa.data_despesa|date:"d M Y" }}</td>
-                                <td>{{ despesa.nome_despesa }}</td>
-                                <td>{{ despesa.categoria_despesa }}</td>
-                                <td class="text-danger">R$ {{ despesa.valor_despesa|floatformat:2 }}</td>
-                            </tr>
-                        {% empty %}
-                            <tr>
-                                <td colspan="4" class="text-center">Nenhuma despesa encontrada.</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                            <td class="text-danger"><strong>R$ {{ total_despesas|floatformat:2 }}</strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div class="table-container">
+                    <form method="post" action="{% url 'delete_despesas' %}">
+                        {% csrf_token %}
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-success">
+                                <tr>
+                                    <th><input type="checkbox" id="select-all"></th>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Categoria</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for despesa in despesas %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="despesas_selecionadas" value="{{ despesa.id }}">
+                                        </td>
+                                        <td>{{ despesa.data_despesa|date:"d M Y" }}</td>
+                                        <td>{{ despesa.nome_despesa }}</td>
+                                        <td>{{ despesa.get_categoria_despesa_display }}</td>
+                                        <td class="text-danger">R$ {{ despesa.valor_despesa|floatformat:2 }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Nenhuma despesa encontrada.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-end"><strong>Total:</strong></td>
+                                    <td class="text-danger"><strong>R$ {{ total_despesas|floatformat:2 }}</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <button type="submit" name="excluir" value="excluir" class="btn btn-danger w-50 mx-auto d-block">Excluir Despesas Selecionadas</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Select/Deselect all checkboxes
+        document.getElementById('select-all').onclick = function() {
+            var checkboxes = document.getElementsByName('despesas_selecionadas');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        }
+    </script>
 </body>
 </html>

@@ -38,6 +38,8 @@ urlpatterns = [
     path('trilha/', views.trilha_view, name='trilha'),
     
     path('extrato/', views.extrato_view, name='extrato'),
+    
+    path('delete_despesas/', views.delete_despesas, name='delete_despesas'),
 
      
      
