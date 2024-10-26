@@ -86,6 +86,16 @@
             color: #7f8c8d;
         }
     </style>
+        <script>
+            // Adiciona um listener ao evento de voltar do navegador
+            window.onpageshow = function(event) {
+                // Verifica se o usuário está navegando de volta pelo histórico do navegador
+                if (event.persisted || window.performance && window.performance.navigation.type == 2) {
+                    // Redireciona para o Dashboard (troque '/dashboard/' pela sua rota do Dashboard)
+                    window.location.href = '/dashboard/';
+                }
+            };
+        </script>
 </head>
 <body>
 

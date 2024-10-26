@@ -141,6 +141,8 @@ def lancar_despesa_comum(request):
             despesa.tipo_despesa = 'ocasional'      
             despesa.save()             
             messages.success(request, 'Despesa lançada com sucesso!')
+            
+            
     else:
         form = DespesaComumForm()
     return render(request, 'user/despesa_comum.html', {'form': form})
@@ -247,7 +249,6 @@ def delete_despesas(request):
         if despesas_ids:
             Despesa.objects.filter(id__in=despesas_ids, usuario=request.user).delete()
             messages.success(request, 'Despesas excluídas com sucesso!')
-        else:
-            messages.warning(request, 'Nenhuma despesa selecionada para exclusão.')
+       
     return redirect('extrato')  # redireciona de volta para a página de extrato
 

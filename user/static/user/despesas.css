@@ -72,3 +72,21 @@ button:hover {
     font-size: 0.9rem;
     color: #34495e;
 }
+.modal-content {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.modal-body p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.modal-body .fs-1 {
+    font-size: 3rem; /* Tamanho do símbolo de check */
+}
+
+.modal-footer button {
+    width: 100px;
+    font-weight: bold;
+}

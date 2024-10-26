@@ -20,6 +20,19 @@
             z-index: 1;
         }
     </style>
+    
+        <!-- Outros elementos do <head> -->
+        <script>
+            // Adiciona um listener ao evento de voltar do navegador
+            window.onpageshow = function(event) {
+                // Verifica se o usuário está navegando de volta pelo histórico do navegador
+                if (event.persisted || window.performance && window.performance.navigation.type == 2) {
+                    // Redireciona para o Dashboard (troque '/dashboard/' pela sua rota do Dashboard)
+                    window.location.href = '/dashboard/';
+                }
+            };
+        </script>
+    
 </head>
 <body>
     <div class="container mt-5">
