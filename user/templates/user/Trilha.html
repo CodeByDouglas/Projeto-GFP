@@ -1,155 +1,105 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trilha de Aprendizado Interativa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: 'Arial', sans-serif;
-        }
+{% extends 'user/base.html' %}
 
-        .timeline-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 50px;
-        }
+{% block title %}Trilha de Aprendizado Interativa{% endblock %}
 
-        .timeline {
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            position: relative;
-            padding: 20px 0;
-        }
+{% block content %}
+<style>
+    .timeline-container {
+        margin-left: 250px; /* Ajuste conforme necessário para dar espaço ao menu lateral */
+        padding: 20px;
+    }
+    .timeline {
+        position: relative;
+        width: 100%;
+        height: 100px;
+        margin: 20px 0;
+    }
+    .line {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background-color: #ccc;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+    }
+    .step {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #007bff;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+    .step[data-step="1"] { left: 10%; }
+    .step[data-step="2"] { left: 30%; }
+    .step[data-step="3"] { left: 50%; }
+    .step[data-step="4"] { left: 70%; }
+    .step[data-step="5"] { left: 90%; }
+    .info-box {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .instruction {
+        margin-top: 20px;
+        font-style: italic;
+    }
+</style>
 
-        .line {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background-color: #27ae60;
-            z-index: 1;
-        }
-
-        .step {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            background-color: #2980b9;
-            border-radius: 50%;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .step:hover {
-            transform: scale(1.3);
-            background-color: #3498db;
-        }
-
-        .step:before {
-            content: attr(data-step);
-            color: white;
-            font-weight: bold;
-        }
-
-        .info-box {
-            margin-top: 40px;
-            width: 60%;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .info-box h3 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        .info-box p {
-            color: #7f8c8d;
-        }
-
-        .instruction {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #7f8c8d;
-        }
-    </style>
-        <script>
-            // Adiciona um listener ao evento de voltar do navegador
-            window.onpageshow = function(event) {
-                // Verifica se o usuário está navegando de volta pelo histórico do navegador
-                if (event.persisted || window.performance && window.performance.navigation.type == 2) {
-                    // Redireciona para o Dashboard (troque '/dashboard/' pela sua rota do Dashboard)
-                    window.location.href = '/dashboard/';
-                }
-            };
-        </script>
-</head>
-<body>
-
-    <div class="timeline-container">
-        <div class="timeline">
-            <div class="line"></div>
-            <div class="step" data-step="1" onclick="showInfo(1)"></div>
-            <div class="step" data-step="2" onclick="showInfo(2)"></div>
-            <div class="step" data-step="3" onclick="showInfo(3)"></div>
-            <div class="step" data-step="4" onclick="showInfo(4)"></div>
-            <div class="step" data-step="5" onclick="showInfo(5)"></div>
-        </div>
-        <div id="info-box" class="info-box">
-            <h3>Selecione uma etapa para ver mais detalhes</h3>
-            <p>Informações sobre a trilha de aprendizado aparecerão aqui quando você clicar em uma etapa da linha do tempo.</p>
-        </div>
-
-        <div class="instruction">
-            Clique nas etapas acima para visualizar os detalhes de cada uma.
-        </div>
+<div class="timeline-container">
+    <div class="timeline">
+        <div class="line"></div>
+        <div class="step" data-step="1" onclick="showInfo(1)"></div>
+        <div class="step" data-step="2" onclick="showInfo(2)"></div>
+        <div class="step" data-step="3" onclick="showInfo(3)"></div>
+        <div class="step" data-step="4" onclick="showInfo(4)"></div>
+        <div class="step" data-step="5" onclick="showInfo(5)"></div>
+    </div>
+    <div id="info-box" class="info-box">
+        <h3>Selecione uma etapa para ver mais detalhes</h3>
+        <p>Informações sobre a trilha de aprendizado aparecerão aqui quando você clicar em uma etapa da linha do tempo.</p>
     </div>
 
-    <script>
-        const infoContent = {
-            1: {
-                title: "Módulo 1: Introdução ao Backend",
-                description: "Neste módulo, você aprenderá os conceitos básicos de backend, incluindo servidores, APIs e muito mais."
-            },
-            2: {
-                title: "Módulo 2: Fundamentos de Python",
-                description: "Este módulo aborda os fundamentos da linguagem Python, com foco em sintaxe, variáveis, e estruturas de controle."
-            },
-            3: {
-                title: "Módulo 3: Django - Primeiros Passos",
-                description: "Aprenda a configurar um projeto Django e construir suas primeiras páginas dinâmicas utilizando este framework poderoso."
-            },
-            4: {
-                title: "Módulo 4: Integração com Banco de Dados",
-                description: "Você aprenderá a conectar seu aplicativo Django a um banco de dados, realizando operações CRUD de forma eficiente."
-            },
-            5: {
-                title: "Módulo 5: Deploy e Manutenção",
-                description: "Entenda como colocar seu projeto no ar e mantê-lo em operação, utilizando plataformas como Heroku e AWS."
-            }
-        };
+    <div class="instruction">
+        Clique nas etapas acima para visualizar os detalhes de cada uma.
+    </div>
+</div>
 
-        function showInfo(step) {
-            const infoBox = document.getElementById("info-box");
-            infoBox.innerHTML = `
-                <h3>${infoContent[step].title}</h3>
-                <p>${infoContent[step].description}</p>
-            `;
+<script>
+    const infoContent = {
+        1: {
+            title: "Módulo 1: Introdução ao Backend",
+            description: "Neste módulo, você aprenderá os conceitos básicos de backend, incluindo servidores, APIs e muito mais."
+        },
+        2: {
+            title: "Módulo 2: Fundamentos de Python",
+            description: "Este módulo aborda os fundamentos da linguagem Python, com foco em sintaxe, variáveis, e estruturas de controle."
+        },
+        3: {
+            title: "Módulo 3: Django - Primeiros Passos",
+            description: "Aprenda a configurar um projeto Django e construir suas primeiras páginas dinâmicas utilizando este framework poderoso."
+        },
+        4: {
+            title: "Módulo 4: Integração com Banco de Dados",
+            description: "Você aprenderá a conectar seu aplicativo Django a um banco de dados, realizando operações CRUD de forma eficiente."
+        },
+        5: {
+            title: "Módulo 5: Deploy e Manutenção",
+            description: "Entenda como colocar seu projeto no ar e mantê-lo em operação, utilizando plataformas como Heroku e AWS."
         }
-    </script>
+    };
 
-</body>
-</html>
+    function showInfo(step) {
+        const infoBox = document.getElementById("info-box");
+        infoBox.innerHTML = `
+            <h3>${infoContent[step].title}</h3>
+            <p>${infoContent[step].description}</p>
+        `;
+    }
+</script>
+{% endblock %}

@@ -1,54 +1,40 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Usuário</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        // Adiciona um listener ao evento de voltar do navegador
-        window.onpageshow = function(event) {
-            // Verifica se o usuário está navegando de volta pelo histórico do navegador
-            if (event.persisted || window.performance && window.performance.navigation.type == 2) {
-                // Redireciona para o Dashboard (troque '/dashboard/' pela sua rota do Dashboard)
-                window.location.href = '/dashboard/';
-            }
-        };
-    </script>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card p-4 shadow-sm">
-                    <div class="text-center mb-3">
-                        <img src="https://via.placeholder.com/100" alt="Avatar do usuário" class="rounded-circle">
-                        <h3 class="mt-2">{{ user.username }}</h3>
-                    </div>
-                    <h4>Definições do Perfil</h4>
-                    <p><strong>Nome Completo:</strong> {{ user.nome_real }} 
-                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarNomeModal">Alterar</a>
-                    </p>
-                    <p><strong>Senha:</strong> ******** 
-                        <a  href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarSenhaModal">Alterar</a>
-                    </p>
+{% extends 'user/base.html' %}          
+
+{% block title %}Perfil de Usuário{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm">
+                <div class="text-center mb-3">
+                    <img src="https://via.placeholder.com/100" alt="Avatar do usuário" class="rounded-circle">
+                    <h3 class="mt-2">{{ user.username }}</h3>
+                </div>
+                <h4>Definições do Perfil</h4>
+                <p><strong>Nome Completo:</strong> {{ user.nome_real }} 
+                    <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarNomeModal">Alterar</a>
+                </p>
+                <p><strong>Senha:</strong> ******** 
+                    <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarSenhaModal">Alterar</a>
+                </p>
+                <div>
                     <div>
-                        <div>
-                            <h5>Rendas</h5>
-                            {% if rendas %}
-                                {% for renda in rendas %}
-                                    <p><strong>{{ renda.nome_renda }}:</strong> R$ {{ renda.valor_renda }} 
-                                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarRendaModal_{{ renda.id }}">Alterar</a>
-                                    </p>
-                                {% endfor %}
-                            {% else %}
-                                <p>Você não tem rendas cadastradas.</p>
-                            {% endif %}
-                        </div>
+                        <h5>Rendas</h5>
+                        {% if rendas %}
+                            {% for renda in rendas %}
+                                <p><strong>{{ renda.nome_renda }}:</strong> R$ {{ renda.valor_renda }} 
+                                    <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#alterarRendaModal_{{ renda.id }}">Alterar</a>
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <p>Você não tem rendas cadastradas.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Modal para Alteração de Nome -->
     <div class="modal fade" id="alterarNomeModal" tabindex="-1" aria-labelledby="alterarNomeModalLabel" aria-hidden="true">
@@ -101,6 +87,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modais para alterar renda -->
     {% for renda in rendas %}
     <div class="modal fade" id="alterarRendaModal_{{ renda.id }}" tabindex="-1" aria-labelledby="alterarRendaModalLabel" aria-hidden="true">
@@ -128,8 +115,5 @@
         </div>
     </div>
     {% endfor %}
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+{% endblock %}

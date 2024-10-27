@@ -50,7 +50,7 @@ ROOT_URLCONF = 'GFP.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Adiciona o diretório de templates do projeto
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -7,6 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'user/style.css' %}">  <!--? passa o caminho para a pasta 'user'onde se localiza o CSS-->
     <title>Tela de login</title>
+    <style>
+        body {
+            background-image: url("{% static 'user/fund.png' %}"); /* Caminho para a imagem de fundo */
+            background-size: cover; /* Ajusta a imagem para cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Evita a repetição da imagem */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">

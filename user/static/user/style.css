@@ -13,7 +13,7 @@ body{
     display: flex;/* alinha o conteudo*/
     justify-content: center;
     align-items: center;/*justify e align centralizam os elementos horizontamente e verticalmente*/
-    background-color: aquamarine;
+    background-image: "{% static user/'fund.png %}";
     
 
 }

@@ -1,90 +1,76 @@
+{% extends 'user/base.html' %}
+
+{% block title %}Prestações{% endblock %}
+
+{% block content %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prestações</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'user/despesas.css' %}">
-    <script>
-        // Adiciona um listener ao evento de voltar do navegador
-        window.onpageshow = function(event) {
-            // Verifica se o usuário está navegando de volta pelo histórico do navegador
-            if (event.persisted || window.performance && window.performance.navigation.type == 2) {
-                // Redireciona para o Dashboard (troque '/dashboard/' pela sua rota do Dashboard)
-                window.location.href = '/dashboard/';
-            }
-        };
-    </script>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="card mx-auto" style="max-width: 400px;">
-            <div class="card-body">
-                <h3 class="card-title text-center">Prestações</h3>
+<link rel="stylesheet" href="{% static 'user/despesas.css' %}">
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-body">
+            <h3 class="card-title text-center">Prestações</h3>
 
-                <!-- Exibe mensagens de sucesso/erro -->
-                {% if messages %}
-                    <div class="alert alert-success">
-                        {% for message in messages %}
-                            <p>{{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            <!-- Exibe mensagens de sucesso/erro -->
+            {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-                <form method="POST" novalidate id="despesa-form">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        {{ form.nome_despesa.label_tag }}
-                        {{ form.nome_despesa }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.valor_despesa.label_tag }}
-                        {{ form.valor_despesa }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.categoria_despesa.label_tag }}
-                        {{ form.categoria_despesa }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.parcelas.label_tag }}
-                        {{ form.parcelas }}
-                    </div>
+            <form method="POST" novalidate id="despesa-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.nome_despesa.label_tag }}
+                    {{ form.nome_despesa }}
+                </div>
+                <div class="mb-3">
+                    {{ form.valor_despesa.label_tag }}
+                    {{ form.valor_despesa }}
+                </div>
+                <div class="mb-3">
+                    {{ form.categoria_despesa.label_tag }}
+                    {{ form.categoria_despesa }}
+                </div>
+                <div class="mb-3">
+                    {{ form.parcelas.label_tag }}
+                    {{ form.parcelas }}
+                </div>
 
-                    <button type="submit" class="btn btn-success w-100">Lançar Despesa</button>
-                </form>
+                <button type="submit" class="btn btn-success w-100">Lançar Despesa</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title mx-auto" id="successModalLabel">Sucesso!</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>Lançamento realizado com sucesso!</p>
+                <span class="text-success fs-1">&#10004;</span> <!-- Símbolo de Validade -->
+            </div>
+            <div class="modal-footer border-0">
+                <a href="{% url 'despesa_parcelada' %}" class="nav-link text-light btn btn-success mb-2">ok</a>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title mx-auto" id="successModalLabel">Sucesso!</h5>
-                </div>
-                <div class="modal-body text-center">
-                    <p>Lançamento realizado com sucesso!</p>
-                    <span class="text-success fs-1">&#10004;</span> <!-- Símbolo de Validade -->
-                </div>
-                <div class="modal-footer border-0">
-                    <a href="{% url 'despesa_parcelada' %}" class="nav-link text-light btn btn-success mb-2">ok</a>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verifica se existe alguma mensagem de sucesso
-            const messageContainer = document.querySelector('.alert-success');
-            if (messageContainer && messageContainer.textContent.trim() !== '') {
-                // Mostra o modal de sucesso
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-            }
-        });
-    </script>
-</body>
-</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verifica se existe alguma mensagem de sucesso
+        const messageContainer = document.querySelector('.alert-success');
+        if (messageContainer && messageContainer.textContent.trim() !== '') {
+            // Mostra o modal de sucesso
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        }
+    });
+</script>
+{% endblock %}

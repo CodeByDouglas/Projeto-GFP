@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'user/dashboard.css' %}">
+    <title>{% block title %}Painel de Controle{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        .login-image {
+            width: 100px; /* Ajuste conforme necessário */
+            height: 100px; /* Ajuste conforme necessário */
+            object-fit: cover; /* Mantém a proporção da imagem */
+            border-radius: 50%; /* Torna a imagem circular */
+        }
+    </style>
+    <script>
+        window.onpageshow = function(event) {
+            if (event.persisted || window.performance && window.performance.navigation.type == 2) {
+                window.location.href = '/dashboard/';
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="d-flex">
+        <div class="bg-dark text-light p-3 sidebar">
+            <div class="user-icon mb-4">
+                <img src="{% static 'user/account.png' %}" alt="Ícone de login" class="login-image">
+            </div>
+            <nav class="nav flex-column">
+                <a href="{% url 'perfil' %}" class="nav-link text-light btn btn-success mb-2">Perfil</a>
+                <a href="{% url 'extrato' %}" class="nav-link text-light btn btn-success mb-2">Extrato de Despesas</a>
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle w-100 mb-2" type="button" id="dropdownLançamento"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Lançamento de Despesas
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownLançamento">
+                        <li><a class="dropdown-item" href="{% url 'despesa_comum' %}">Ocasional</a></li>
+                        <li><a class="dropdown-item" href="{% url 'despesa_fixa' %}">Fixa</a></li>
+                        <li><a class="dropdown-item" href="{% url 'despesa_parcelada' %}">Parcelada</a></li>
+                    </ul>
+                </div>
+                <a href="{% url 'trilha' %}" class="nav-link text-light btn btn-success mb-2">Trilha de Aprendizado</a>
+            </nav>
+            <button class="btn btn-secondary mt-5">Ajuda</button>
+        </div>
+
+        <div class="container-fluid p-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
