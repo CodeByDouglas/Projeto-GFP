@@ -1,149 +1,105 @@
-{% load static %} <!--?Carrega os arquivos estaticos referenciados no código.-->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'user/dashboard.css' %}"><!--? passa o caminho para a pasta 'user'onde se localiza o arequivo CSS para essa página-->
-    <title>Painel de Controle</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css">
-    <script>
-        // Adiciona um listener ao evento de voltar do navegador
-        window.onpageshow = function(event) {
-            // Verifica se o usuário está navegando de volta pelo histórico do navegador
-            if (event.persisted || window.performance && window.performance.navigation.type == 2) {
-                // Redireciona para o Dashboard (troque '/dashboard/' pela sua rota do Dashboard)
-                window.location.href = '/dashboard/';
-            }
-        };
-    </script>
-</head>
-<body>
+{% extends 'user/base.html' %}
 
-    <div class="d-flex">
-        <div class="bg-dark text-light p-3 sidebar">
-            <div class="user-icon mb-4">
-                <img src="account.png"User class="img-fluid rounded-circle">
-            </div>
-            <nav class="nav flex-column">
-                <a href="{% url 'perfil' %}" class="nav-link text-light btn btn-success mb-2">Perfil</a>
-                 
-                <a href="{% url 'extrato' %}" class="nav-link text-light btn btn-success mb-2">Extrato de Despesas</a>
-                <div class="dropdown">
-                    <button class="btn btn-success dropdown-toggle w-100 mb-2" type="button" id="dropdownLançamento"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        Lançamento de Despesas
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownLançamento">
-                        <li><a class="dropdown-item" href="{% url 'despesa_comum' %}">Ocasional</a></li>
-                        <li><a class="dropdown-item" href="{% url 'despesa_fixa' %}">Fixa</a></li>
-                        <li><a class="dropdown-item" href="{% url 'despesa_parcelada' %}">Parcelada</a></li>
-                    </ul>
+{% block title %}Painel de Controle{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="text-light">Olá, Usuário!</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Indicador 1</h5>
+                    <p class="card-text">Detalhes do indicador.</p>
                 </div>
-                <a href="{% url 'trilha' %}" class="nav-link text-light btn btn-success mb-2">Trilha de Aprendizado</a>
-            </nav>
-            <button class="btn btn-secondary mt-5">Ajuda</button>
+            </div>
         </div>
-
-        <div class="container-fluid p-4">
-            <h1 class="text-light">Olá, Usuário!</h1>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card bg-dark text-light mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Indicador 1</h5>
-                            <p class="card-text">Detalhes do indicador.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-dark text-light mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Indicador 2</h5>
-                            <p class="card-text">Detalhes do indicador.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-dark text-light mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Indicador 3</h5>
-                            <p class="card-text">Detalhes do indicador.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-dark text-light mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Indicador 4</h5>
-                            <p class="card-text">Detalhes do indicador.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-3">
             <div class="card bg-dark text-light mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Gráfico de Linha</h5>
-                    <canvas id="lineChart"></canvas>
+                    <h5 class="card-title">Indicador 2</h5>
+                    <p class="card-text">Detalhes do indicador.</p>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="card bg-dark text-light mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Gráfico de Barras</h5>
-                    <canvas id="barChart"></canvas>
+                    <h5 class="card-title">Indicador 3</h5>
+                    <p class="card-text">Detalhes do indicador.</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Tabela de Dados</h5>
-                            <table class="table table-dark table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Categoria</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Categoria A</td>
-                                        <td>100</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Categoria B</td>
-                                        <td>200</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Categoria C</td>
-                                        <td>300</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Indicador 4</h5>
+                    <p class="card-text">Detalhes do indicador.</p>
                 </div>
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Gráfico de Progresso</h5>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">60%</div>
-                            </div>
-                        </div>
+            </div>
+        </div>
+    </div>
+    <div class="card bg-dark text-light mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Gráfico de Linha</h5>
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+    <div class="card bg-dark text-light mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Gráfico de Barras</h5>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Tabela de Dados</h5>
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Categoria</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Categoria A</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Categoria B</td>
+                                <td>200</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Categoria C</td>
+                                <td>300</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Gráfico de Progresso</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">60%</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+{% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}

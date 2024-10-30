@@ -7,6 +7,7 @@
     box-sizing: border-box;/*Inclui o padding e a borda nas dimensões dos elementos, facilitando o controle de tamanho.*/
     font-family:"Montserrat", serif;
     
+    
 
 }
 
@@ -18,9 +19,10 @@ body{
     align-items: center;
     background-color: #304855;
     box-sizing: border-box;
+    font-size: 12px;
 }
 .container{
-    height: 85%;
+    height: 95%;
     background-color: #d9dad8;
     padding: 40px;/*Espaçamento interno*/
     border-radius: 20px;
@@ -35,6 +37,7 @@ body{
     color: #22343e;
     font-size: 20px;
     margin-bottom: 40px;/* Espaçamento abaixo do título */
+    margin-top: 5px;
 }
 
 .input-group{
@@ -73,6 +76,9 @@ body{
 }
 
 /* Botão voltar (agora estilizado diretamente no <a>) */
+.confirmar-btn{
+    margin-top: 20px;
+}
 .voltar-btn, .confirmar-btn {
     width: 48%; /* Cada botão ocupa 48% da largura do container pai */
     padding: 12px;
