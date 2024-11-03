@@ -1,3 +1,32 @@
+# Ambiente virtual
 ambiente_virtual/
+
+# Arquivos Python compilados
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos compilados em C
+*.dll
+*.so
+*.o
+*.obj
+*.exe
+
+# Diretórios de build
+build/
+dist/
+Calculos/
+
+# Banco de dados SQLite
 db.sqlite3
+
+# Arquivos de log
+*.log
+
+# Media files
+media/
+
+# Outros arquivos temporários
+*.swp
+*.swo
