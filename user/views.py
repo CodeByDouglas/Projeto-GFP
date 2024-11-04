@@ -1,10 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from .models import Renda
+from .models import Renda, Despesa
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from .models import Despesa
 from django.contrib.auth import login, authenticate #? login: Faz o login de um usuário autenticado, estabelecendo uma sessão.authenticate: Verifica as credenciais de um usuário (nome de usuário e senha).
 from .models import Usuario  #? Importa o modelo Usuario definido no seu projeto para manipular os dados de usuários
 from django.contrib import messages #? Utiliza o sistema de mensagens do Django para enviar notificações (sucesso, erro, etc.) ao usuário.
@@ -15,6 +14,8 @@ from django.urls import reverse_lazy #? Função que permite obter URLs de manei
 from django.shortcuts import render, redirect #? render: Renderiza um template HTML com um contexto.redirect: Redireciona o usuário para uma URL específica.
 from django.contrib.auth import views as auth_views #? Importa as views genéricas relacionadas à autenticação (como login, logout)
 from django.urls import path #? Função usada para definir as rotas (URLs) da aplicação.
+from user.Calculos.calculos import soma_valores, subtrair_valores, calcular_porcentagens, calcular_parcelas_restantes
+import datetime
 
 
 
@@ -252,3 +253,56 @@ def delete_despesas(request):
        
     return redirect('extrato')  # redireciona de volta para a página de extrato
 
+@login_required
+def total_despesas_view(request):
+    # Obtém todas as despesas do usuário logado
+    despesas = Despesa.objects.filter(usuario=request.user)
+    valores_despesas = [despesa.valor_despesa for despesa in despesas]
+    
+    # Calcula o total das despesas usando a função soma_valores
+    total_despesas = soma_valores(valores_despesas)
+    
+    # Obtém todas as rendas do usuário logado
+    rendas = Renda.objects.filter(usuario=request.user)
+    valores_rendas = [renda.valor_renda for renda in rendas]
+    
+    # Calcula o total das rendas usando a função soma_valores
+    total_rendas = soma_valores(valores_rendas)
+    
+    # Calcula o saldo atual usando a função subtrair_valores
+    saldo_atual = subtrair_valores(total_despesas, total_rendas)
+    
+    # Calcula os valores gastos por cada categoria
+    categorias = Despesa.CATEGORIA_DESPESA_CHOICES
+    valores_por_categoria = {categoria: [] for categoria, _ in categorias}
+    for despesa in despesas:
+        valores_por_categoria[despesa.categoria_despesa].append(despesa.valor_despesa)
+    
+    total_por_categoria = {categoria: soma_valores(valores) for categoria, valores in valores_por_categoria.items()}
+    
+    # Calcula as porcentagens das despesas por categoria
+    valores = list(total_por_categoria.values())
+    porcentagens = calcular_porcentagens(valores, total_rendas)
+    
+    porcentagens_por_categoria = {categoria: porcentagens[i] for i, (categoria, _) in enumerate(categorias)}
+    
+    # Calcula as parcelas restantes das despesas parceladas
+    despesas_parceladas = despesas.filter(tipo_despesa='parcelada')
+    quantidade_parcelas = [despesa.parcelas for despesa in despesas_parceladas]
+    anos_inicio = [despesa.data_despesa.year for despesa in despesas_parceladas]
+    meses_inicio = [despesa.data_despesa.month for despesa in despesas_parceladas]
+    mes_atual = datetime.datetime.now().month
+    ano_atual = datetime.datetime.now().year
+    
+    parcelas_restantes = calcular_parcelas_restantes(quantidade_parcelas, meses_inicio, anos_inicio, mes_atual, ano_atual)
+    
+    # Passa o total para o template
+    context = {
+        'total_despesas': total_despesas,
+        'total_rendas': total_rendas,
+        'saldo_atual': saldo_atual,
+        'total_por_categoria': total_por_categoria,
+        'porcentagens_por_categoria': porcentagens_por_categoria,
+        'despesas_parceladas': zip(despesas_parceladas, parcelas_restantes),
+    }
+    return render(request, 'user/total_despesas.html', context)

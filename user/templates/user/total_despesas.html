@@ -1,0 +1,30 @@
+{% extends 'user/base.html' %}
+
+{% block title %}Total de Despesas e Rendas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Total de Despesas e Rendas</h2>
+    <p>O total das suas despesas é: R$ {{ total_despesas|floatformat:2 }}</p>
+    <p>O total das suas rendas é: R$ {{ total_rendas|floatformat:2 }}</p>
+    <p>O seu saldo atual é: R$ {{ saldo_atual|floatformat:2 }}</p>
+    <h3>Valores Gastos por Categoria</h3>
+    <ul>
+        {% for categoria, total in total_por_categoria.items %}
+            <li>{{ categoria }}: R$ {{ total|floatformat:2 }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Porcentagens das Despesas por Categoria</h3>
+    <ul>
+        {% for categoria, porcentagem in porcentagens_por_categoria.items %}
+            <li>{{ categoria }}: {{ porcentagem|floatformat:2 }}%</li>
+        {% endfor %}
+    </ul>
+    <h3>Parcelas Restantes das Despesas Parceladas</h3>
+    <ul>
+        {% for despesa, parcelas_restantes in despesas_parceladas %}
+            <li>{{ despesa.nome_despesa }}: {{ parcelas_restantes }} parcelas restantes</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

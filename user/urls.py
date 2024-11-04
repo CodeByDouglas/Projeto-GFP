@@ -1,5 +1,5 @@
 from django.urls import path#?from django.urls import path:importando a função path do Django, que é usada para definir mapeamentos de URLs para views.
-from .views import CustomLoginView, dashboard, cadastrar_usuario #?from .views import CustomLoginView: Importamos a nossa CustomLoginView que criamos na view. Isso permite que a gente use essa view para lidar com a URL de login, E também a view dashboard que carrega o template da Home page, E a view de cadastro de usuário que é a view responsavel por salvar o usuário no database.
+from .views import CustomLoginView, dashboard, cadastrar_usuario, total_despesas_view #?from .views import CustomLoginView: Importamos a nossa CustomLoginView que criamos na view. Isso permite que a gente use essa view para lidar com a URL de login, E também a view dashboard que carrega o template da Home page, E a view de cadastro de usuário que é a view responsavel por salvar o usuário no database.
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -40,6 +40,8 @@ urlpatterns = [
     path('extrato/', views.extrato_view, name='extrato'),
     
     path('delete_despesas/', views.delete_despesas, name='delete_despesas'),
+
+    path('total-despesas/', total_despesas_view, name='total_despesas'),
 
      
      
