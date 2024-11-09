@@ -16,7 +16,7 @@ from django.contrib.auth import views as auth_views #? Importa as views genéric
 from django.urls import path #? Função usada para definir as rotas (URLs) da aplicação.
 from user.Calculos.calculos import soma_valores, subtrair_valores, calcular_porcentagens, calcular_parcelas_restantes
 import datetime
-
+from user.utils.funcao_categoria_json import calcular_valores_por_categoria
 
 
 
@@ -45,11 +45,15 @@ def dashboard(request):
     
     # Calcula o saldo atual como renda - despesa
     saldo_atual = subtrair_valores(total_rendas, total_despesas)
+
+    categorias_json, valores_json = calcular_valores_por_categoria(request.user)
     
     context = {
         'total_despesas': total_despesas,
         'total_rendas': total_rendas,
         'saldo_atual': saldo_atual,
+        'categorias_json': categorias_json,
+        'valores_json': valores_json,
     }
     return render(request, 'user/dashboard.html', context)
 
@@ -328,3 +332,4 @@ def total_despesas_view(request):
         'despesas_parceladas': zip(despesas_parceladas, parcelas_restantes),
     }
     return render(request, 'user/total_despesas.html', context)
+
