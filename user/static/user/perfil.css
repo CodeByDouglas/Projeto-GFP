@@ -1,0 +1,146 @@
+/* Estilo geral */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+/* Card de perfil */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.card h3 {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.card h4 {
+    font-size: 20px;
+    color: #555;
+    margin-top: 15px;
+}
+
+.card h5 {
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.card p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.card .text-center {
+    margin-bottom: 20px;
+}
+
+.card img.rounded-circle {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #007bff;
+    padding: 2px;
+}
+
+/* Links de alteração */
+.text-decoration-none {
+    color: #007bff;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.text-decoration-none:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Títulos de seções */
+h4, h5 {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Estilo de Modal */
+.modal-header {
+    background-color: #007bff;
+    color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-body .form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="password"],
+.modal-body input[type="number"] {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.modal-body .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+    width: 100%;
+}
+
+.modal-body .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.modal-body .form-control:focus {
+    box-shadow: none;
+    border-color: #007bff;
+}
+
+/* Botão de Salvar */
+button.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        margin-top: 20px;
+    }
+    .card {
+        padding: 20px;
+    }
+    .card h3 {
+        font-size: 22px;
+    }
+    .modal-dialog {
+        max-width: 90%;
+    }
+}

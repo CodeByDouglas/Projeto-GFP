@@ -27,9 +27,31 @@ class CustomLoginView(auth_views.LoginView):
     template_name = 'user/login.html'  #? Template para o login
     success_url = reverse_lazy('dashboard')  #? Após login bem-sucedido, redireciona ao dashboard
 
-@login_required 
+@login_required
 def dashboard(request):
-    return render(request, 'user/dashboard.html')  
+    # Obtém todas as despesas do usuário logado
+    despesas = Despesa.objects.filter(usuario=request.user)
+    valores_despesas = [despesa.valor_despesa for despesa in despesas]
+    
+    # Calcula o total das despesas usando a função soma_valores
+    total_despesas = soma_valores(valores_despesas)
+    
+    # Obtém todas as rendas do usuário logado
+    rendas = Renda.objects.filter(usuario=request.user)
+    valores_rendas = [renda.valor_renda for renda in rendas]
+    
+    # Calcula o total das rendas usando a função soma_valores
+    total_rendas = soma_valores(valores_rendas)
+    
+    # Calcula o saldo atual como renda - despesa
+    saldo_atual = subtrair_valores(total_rendas, total_despesas)
+    
+    context = {
+        'total_despesas': total_despesas,
+        'total_rendas': total_rendas,
+        'saldo_atual': saldo_atual,
+    }
+    return render(request, 'user/dashboard.html', context)
 
 def cadastrar_usuario(request):
     if request.method == 'POST':
@@ -270,7 +292,7 @@ def total_despesas_view(request):
     total_rendas = soma_valores(valores_rendas)
     
     # Calcula o saldo atual usando a função subtrair_valores
-    saldo_atual = subtrair_valores(total_despesas, total_rendas)
+    saldo_atual = subtrair_valores(total_rendas,total_despesas)
     
     # Calcula os valores gastos por cada categoria
     categorias = Despesa.CATEGORIA_DESPESA_CHOICES
