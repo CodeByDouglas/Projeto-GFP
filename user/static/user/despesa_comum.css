@@ -16,26 +16,30 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 30vh; /* Garante que o contêiner ocupe a altura total da tela */
-    margin-top: -2000px; /* Ajuste conforme necessário para subir o contêiner */
+    min-height: 50vh; /* Garante que o contêiner ocupe a altura total da tela */
+    margin-top: 0px; /* Ajuste conforme necessário para subir o contêiner */
+    padding: 0;
 }
 
 .card {
     background-color: #ecf0f1;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    min-height: 600px; /* Define uma altura mínima para o card */
+    min-height: 400px; /* Define uma altura mínima para o card */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribui o conteúdo de forma igual */
     padding: 50px;
+    padding-top: 40px;
 }
 
 .card-title {
-    margin-bottom: 0px;
+    
     font-size: 2.3rem;
     color: #34495e;
     text-transform: uppercase;
+    margin-top: 0;
+    
 }
 
 .form-label {
@@ -43,16 +47,15 @@ h3 {
     color: #34495e;
 }
 
-.form-control {
-    border-radius: 5px;
-    border: 1px solid #bdc3c7;
-}
-
+.form-control,
 .form-select {
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid #bdc3c7;
     font-size: 0.9rem;
     padding:10px;
+    outline: none;
+    
+
 }
 
 button {
