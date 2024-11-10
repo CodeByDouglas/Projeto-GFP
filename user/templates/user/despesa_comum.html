@@ -1,4 +1,4 @@
-{% extends 'user/base.html' %}
+{% extends 'user/menu.html' %}
 
 {% block title %}Despesa{% endblock %}
 
@@ -56,15 +56,5 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Verifica se existe alguma mensagem de sucesso
-        const messageContainer = document.querySelector('.alert-success');
-        if (messageContainer && messageContainer.textContent.trim() !== '') {
-            // Mostra o modal de sucesso
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-        }
-    });
-</script>
+<script src="{% static 'Js/despesa_comum.js' %}"></script>
 {% endblock %}

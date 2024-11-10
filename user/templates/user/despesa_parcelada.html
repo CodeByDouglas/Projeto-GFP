@@ -1,9 +1,8 @@
-{% extends 'user/base.html' %}
+{% extends 'user/menu.html' %}
 
 {% block title %}Prestações{% endblock %}
 
 {% block content %}
-
 {% load static %}
 <link rel="stylesheet" href="{% static 'user/despesa_parcelada.css' %}">
 <div class="container mt-5">
@@ -62,15 +61,5 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Verifica se existe alguma mensagem de sucesso
-        const messageContainer = document.querySelector('.alert-success');
-        if (messageContainer && messageContainer.textContent.trim() !== '') {
-            // Mostra o modal de sucesso
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-        }
-    });
-</script>
+<script src="{% static 'Js/despesa_parcelada.js' %}"></script>
 {% endblock %}

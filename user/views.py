@@ -16,7 +16,7 @@ from django.contrib.auth import views as auth_views #? Importa as views genéric
 from django.urls import path #? Função usada para definir as rotas (URLs) da aplicação.
 from user.Calculos.calculos import soma_valores, subtrair_valores, calcular_porcentagens, calcular_parcelas_restantes
 import datetime
-from user.utils.funcoes_calculo import calcular_valores_por_categoria, calcular_porcentagem_por_categoria, calcular_prestacoes_restantes, calcular_despesas_fixas
+from user.utils.funcoes_dashboard import calcular_valores_por_categoria, calcular_porcentagem_por_categoria, calcular_prestacoes_restantes, calcular_despesas_fixas
 
 
 
@@ -348,16 +348,3 @@ def total_despesas_view(request):
     }
     return render(request, 'user/total_despesas.html', context)
 
-@login_required
-def dashboard_view(request):
-    categorias_json, valores_json = calcular_valores_por_categoria(request.user)
-    categorias_porcentagem_json, porcentagens_json = calcular_porcentagem_por_categoria(request.user)
-    
-    context = {
-        'categorias_json': categorias_json,
-        'valores_json': valores_json,
-        'categorias_porcentagem_json': categorias_porcentagem_json,
-        'porcentagens_json': porcentagens_json,
-    }
-    
-    return render(request, 'user/dashboard.html', context)

@@ -31,8 +31,6 @@ urlpatterns = [
 
      path('alterar-nome/', views.alterar_nome, name='alterar_nome'),
 
-    path('perfil/', views.perfil, name='perfil'),
-    
     path('alterar-renda/<int:renda_id>/', views.alterar_renda, name='alterar_renda'),
     
     path('trilha/', views.trilha_view, name='trilha'),
@@ -41,7 +39,7 @@ urlpatterns = [
     
     path('delete_despesas/', views.delete_despesas, name='delete_despesas'),
 
-    path('total-despesas/', total_despesas_view, name='total_despesas'),
+    
 
      
      

@@ -1,28 +1,10 @@
-{% extends 'user/base.html' %}
+{% extends 'user/menu.html' %}
 
 {% block title %}Extrato de Despesas{% endblock %}
 
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'user/extrato.css' %}">
-<style>
-    .table-container {
-        max-height: 400px; /* Defina a altura fixa desejada */
-        overflow-y: auto; /* Permite rolagem vertical */
-    }
-
-    .table thead th {
-        position: sticky;
-        top: 0;
-        background: #d1e7dd; /* Cor de fundo do cabeçalho para melhorar visibilidade */
-        z-index: 1;
-    }
-
-    .content-wrapper {
-        margin-left: 50px; /* Diminua a margem para aproximar do menu lateral */
-        padding: 20px;
-    }
-</style>
 
 <div class="content-wrapper">
     <div class="container mt-5">
@@ -108,13 +90,5 @@
     </div>
 </div>
 
-<script>
-    // Select/Deselect all checkboxes
-    document.getElementById('select-all').onclick = function() {
-        var checkboxes = document.getElementsByName('despesas_selecionadas');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = this.checked;
-        }
-    }
-</script>
+<script src="{% static 'Js/extrato.js' %}"></script>
 {% endblock %}

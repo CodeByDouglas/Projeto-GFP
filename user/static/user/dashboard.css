@@ -1,57 +1,69 @@
 body {
-    background-color: #343a40;
-    margin: 0;
-    font-family: Arial, sans-serif;
+    background-color: #182933; /* Define a cor de fundo da página */
+    overflow: hidden; /* Impede a rolagem da página */
+}
+.chart-container {
+    width: 50vw; /* 50% da largura da viewport */
+    height: 33vh; /* 33% da altura da viewport */
+}
+.chart-container-categorias {
+    width: 60vw; /* Ajuste o tamanho do gráfico de categorias */
+    height: 40vh; /* Ajuste o tamanho do gráfico de categorias */
+}
+.chart-container-porcentagens {
+    width: 50vw; /* Ajuste o tamanho do gráfico de porcentagens */
+    height: 38vh; /* Ajuste o tamanho do gráfico de porcentagens */
+}
+.table-container {
+    max-height: 190px; /* Altura máxima da tabela ajustada */
+    overflow-y: auto; /* Permite rolagem vertical */
+    margin-top: -20px; /* Sobe a tabela um pouco para cima */
+}
+.table {
+    width: 100%; /* Largura da tabela */
+    border-radius: 10px; /* Cantos arredondados da tabela */
+    overflow: hidden; /* Garante que o conteúdo da tabela não ultrapasse os cantos arredondados */
+    background-color: #ecf0f1; /* Fundo para melhor visibilidade */
+}
+.col-md-6 .table-container {
+    width: 100%; /* Metade da largura da coluna */
+}
+.table thead th {
+    position: sticky;
+    top: 0;
+    background: #198754; /* Cor de fundo do cabeçalho para melhorar visibilidade */
+    z-index: 1;
+}
+.card {
+    background-color: #ecf0f1; /* Fundo para os cartões */
+}
+.card-header {
+    background-color: #198754; /* Cor de fundo do cabeçalho dos cartões */
+}
+.card-body {
+    color: #182933; /* Cor do texto do corpo dos cartões */
+    background-color: #ecf0f1;
+}
+/* Estilizando a barra de rolagem */
+.table-container::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+}
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: #888; /* Cor da barra de rolagem */
+    border-radius: 10px; /* Cantos arredondados da barra de rolagem */
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor da barra de rolagem ao passar o mouse */
 }
 
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: #343a40;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: width 0.3s;
-    position: relative;
+.container-fluid {
+    background-color: #182933;
 }
 
-.user-icon {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.nav {
-    flex-grow: 1;
-}
-
-.btn-help {
-    margin-bottom: 20px;
-    align-self: center;
-}
-
-.toggle-btn {
-    position: absolute; 
-    top: 10px;
-    right: -50px; 
-    background-color: #007bff;
-    color: white;
-    border: none; 
-    cursor: pointer; 
-    transition: right 0.3s; 
-}
-
-.sidebar.minimized {
-    width: 50px;
-}
-
-.sidebar.minimized .user-icon,
-.sidebar.minimized .nav,
-.sidebar.minimized .btn-help {
-    display: none;
-}
-
-.sidebar.minimized .toggle-btn {
-    right: 10px; 
+.table thead {
+    background-color: #198754;
+    color: #fff;
 }

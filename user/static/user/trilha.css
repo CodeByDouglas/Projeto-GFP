@@ -1,0 +1,57 @@
+.timeline-container {
+    margin-left: 10px; /* Ajuste conforme necessário para dar espaço ao menu lateral */
+    padding: 20px;
+}
+
+.timeline {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin: 20px 0;
+}
+
+.line {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: #ccc;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.step {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.step[data-step="1"] { left: 0%; }
+.step[data-step="2"] { left: 10%; }
+.step[data-step="3"] { left: 20%; }
+.step[data-step="4"] { left: 30%; }
+.step[data-step="5"] { left: 40%; }
+.step[data-step="6"] { left: 50%; }
+.step[data-step="7"] { left: 60%; }
+.step[data-step="8"] { left: 70%; }
+.step[data-step="9"] { left: 80%; }
+.step[data-step="10"] { left: 90%; }
+.step[data-step="11"] { left: 100%; }
+
+.info-box {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.instruction {
+    margin-top: 20px;
+    font-style: italic;
+}

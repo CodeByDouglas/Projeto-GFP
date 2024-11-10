@@ -1,0 +1,113 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;/*margin e padding 0 remove o espaçamento padrão de todos os elementos*/
+    box-sizing: border-box;/*Inclui o padding e a borda nas dimensões dos elementos, facilitando o controle de tamanho.*/
+    font-family:"Montserrat", serif;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;/* alinha o conteudo*/
+    justify-content: center;
+    align-items: center;/*justify e align centralizam os elementos horizontamente e verticalmente*/
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+}
+
+.container{
+    width: 90%;
+    height: 80%;
+    display: flex;
+    position: relative;/*Permite que os elementos dentro do contêiner sejam posicionados relativamente ao contêiner.*/
+    background-color: #182933;
+    border-radius: 20px;
+    overflow: hidden;/*Assegura que qualquer conteúdo dentro do contêiner que ultrapasse seus limites seja oculto.*/
+} 
+.form-image{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    position: absolute;/*Assegura que qualquer conteúdo dentro do contêiner que ultrapasse seus limites seja oculto.*/
+    display: flex;
+    align-items: center;
+    background-color: #182933;
+    padding: 10px;
+    border-radius: 15px;
+}
+.form-image img{
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+.form{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column;
+    position: relative;
+    margin-left: 50%; /* Move a parte do formulário para a direita, sobrepondo-se à imagem */
+    border-radius: 0 10px 10px 0;
+}
+.input-box{
+    width: 100%;
+    margin-bottom: 15px; /* espaçamento entre as caixas*/
+}
+.input-box input{
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    background-color: #ecf0f1;
+    font-size: 16px;
+    color: #333;/*cor dos textos*/
+    outline: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.input-box input:focus{/*Estiliza os campos de entrada quando eles estão focados (ou seja, quando o usuário clica neles*/
+    border-color: #198754;/*altera a cor da borda ao focar no campo*/
+    box-shadow: 0px 4px 6px #146c43;/*sombra suave verde*/
+}
+.login-botton, .cadastrar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.login-botton button, .cadastrar button{
+    width: 100%;
+    padding: 12px;
+    background-color: #198754;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer; /*mostra a maozinha ao passar o mouse*/
+    text-align: center;
+}
+.login-botton button:hover, .cadastrar button:hover {
+    background-color: #146c43 ; /* Muda a cor de fundo ao passar o mouse */
+}
+.login-botton button a, .cadastrar button a {
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: #fff; /* Mantém o texto do link branco */
+    width: 100%;
+    display: block;
+    text-align: center; /* Centraliza o texto do link dentro do botão */
+}
+.login-image {
+    width: 120px; /* Ajusta para um tamanho proporcional */
+    height: 120px; /* Define uma altura proporcional */
+    border-radius: 50%; /* Faz com que a imagem fique circular */
+    background-image: url("{% static 'user/image/account.png' %}"); /* Caminho para a imagem de login */
+    background-color: #fff; /* Define um fundo branco caso a imagem tenha transparência */
+    padding: 0; /* Adiciona um preenchimento interno para criar um espaço ao redor da imagem */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destaque */
+    display: block;
+    margin: 0 auto 20px; /* Centraliza a imagem e adiciona um espaço abaixo */
+}

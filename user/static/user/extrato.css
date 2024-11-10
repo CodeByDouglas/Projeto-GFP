@@ -1,4 +1,3 @@
-
 body {
     background-color: #182933;
 }
@@ -42,4 +41,21 @@ button {
 
 button:hover {
     background-color: #146c43;
+}
+
+.table-container {
+    max-height: 400px; /* Defina a altura fixa desejada */
+    overflow-y: auto; /* Permite rolagem vertical */
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    background: #d1e7dd; /* Cor de fundo do cabeçalho para melhorar visibilidade */
+    z-index: 1;
+}
+
+.content-wrapper {
+    margin-left: 50px; /* Diminua a margem para aproximar do menu lateral */
+    padding: 20px;
 }
