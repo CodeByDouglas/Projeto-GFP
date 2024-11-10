@@ -93,14 +93,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-
-LANGUAGE_CODE = 'pt-br' #
-
-TIME_ZONE = 'America/Sao_Paulo'
-
-USE_I18N = True
-
-USE_TZ = True
+LANGUAGE_CODE = 'pt-br'
+USE_L10N = True
+USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)

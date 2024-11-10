@@ -1,69 +1,88 @@
-body {
-    background-color: #182933; /* Define a cor de fundo da página */
+body.dashboard {
+    background-color: #182933;
+    font-family: 'Montserrat', sans-serif;
     overflow: hidden; /* Impede a rolagem da página */
 }
-.chart-container {
-    width: 50vw; /* 50% da largura da viewport */
-    height: 33vh; /* 33% da altura da viewport */
-}
-.chart-container-categorias {
-    width: 60vw; /* Ajuste o tamanho do gráfico de categorias */
-    height: 40vh; /* Ajuste o tamanho do gráfico de categorias */
-}
-.chart-container-porcentagens {
-    width: 50vw; /* Ajuste o tamanho do gráfico de porcentagens */
-    height: 38vh; /* Ajuste o tamanho do gráfico de porcentagens */
-}
-.table-container {
-    max-height: 190px; /* Altura máxima da tabela ajustada */
-    overflow-y: auto; /* Permite rolagem vertical */
-    margin-top: -20px; /* Sobe a tabela um pouco para cima */
-}
-.table {
-    width: 100%; /* Largura da tabela */
-    border-radius: 10px; /* Cantos arredondados da tabela */
-    overflow: hidden; /* Garante que o conteúdo da tabela não ultrapasse os cantos arredondados */
-    background-color: #ecf0f1; /* Fundo para melhor visibilidade */
-}
-.col-md-6 .table-container {
-    width: 100%; /* Metade da largura da coluna */
-}
-.table thead th {
-    position: sticky;
-    top: 0;
-    background: #198754; /* Cor de fundo do cabeçalho para melhorar visibilidade */
-    z-index: 1;
-}
-.card {
-    background-color: #ecf0f1; /* Fundo para os cartões */
-}
-.card-header {
-    background-color: #198754; /* Cor de fundo do cabeçalho dos cartões */
-}
-.card-body {
-    color: #182933; /* Cor do texto do corpo dos cartões */
-    background-color: #ecf0f1;
-}
-/* Estilizando a barra de rolagem */
-.table-container::-webkit-scrollbar {
-    width: 8px; /* Largura da barra de rolagem */
-}
-.table-container::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
-}
-.table-container::-webkit-scrollbar-thumb {
-    background: #888; /* Cor da barra de rolagem */
-    border-radius: 10px; /* Cantos arredondados da barra de rolagem */
-}
-.table-container::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Cor da barra de rolagem ao passar o mouse */
-}
 
-.container-fluid {
+body {
     background-color: #182933;
 }
 
-.table thead {
-    background-color: #198754;
-    color: #fff;
+.top-windows {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.center-windows {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px; /* Espaço entre as janelas */
+}
+
+.window {
+    background-color: #ecf0f1;
+    width: 30%; /* Mantém o tamanho original das janelas superiores */
+    height: 120px; /* Mantém o tamanho original das janelas superiores */
+    border-radius: 15px; /* Adiciona bordas arredondadas */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.window.no-title {
+    width: calc(50% - 10px); /* Ocupa metade da largura da tela menos o espaço entre as janelas */
+    height: 308px; /* Aumenta a altura em 8px */
+}
+
+.window:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.window-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: white; /* Cor branca para o título */
+    background-color: #198754; /* Cor verde para o fundo do título */
+    padding: 5px 10px; /* Ajuste o padding superior para mover a linha divisória para cima */
+    border-bottom: 1px solid #182933;
+    text-align: center;
+    border-top-left-radius: 15px; /* Bordas arredondadas no topo esquerdo */
+    border-top-right-radius: 15px; /* Bordas arredondadas no topo direito */
+}
+
+.window-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 2em; /* Aumenta o tamanho dos números */
+    font-weight: bold;
+    color: #182933;
+    border-bottom-left-radius: 15px; /* Bordas arredondadas na parte inferior esquerda */
+    border-bottom-right-radius: 15px; /* Bordas arredondadas na parte inferior direita */
+}
+
+.window-content canvas {
+    width: 95% !important; /* Define a largura do canvas para 95% da janela */
+    height: 95% !important; /* Define a altura do canvas para 95% da janela */
+}
+
+.entrada .window-content {
+    color: #0ea760; /* Cor verde para o conteúdo da janela de entrada */
+}
+
+.saida .window-content {
+    color: #ff0000; /* Cor vermelha para o conteúdo da janela de saída */
+}
+
+/* Estilo para as categorias */
+.chartjs-legend li {
+    font-size: 1.2em; /* Aumenta o tamanho da fonte das categorias */
+    color: #182933; /* Define a cor da fonte das categorias */
 }

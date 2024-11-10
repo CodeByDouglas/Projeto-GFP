@@ -17,6 +17,8 @@ from django.urls import path #? Função usada para definir as rotas (URLs) da a
 from user.Calculos.calculos import soma_valores, subtrair_valores, calcular_porcentagens, calcular_parcelas_restantes
 import datetime
 from user.utils.funcoes_dashboard import calcular_valores_por_categoria, calcular_porcentagem_por_categoria, calcular_prestacoes_restantes, calcular_despesas_fixas, calcular_totais
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 
 

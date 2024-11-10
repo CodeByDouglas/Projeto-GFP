@@ -1,116 +1,51 @@
 {% extends 'menu.html' %}
 
-{% block title %}Painel de Controle{% endblock %}
+{% block body_class %}dashboard{% endblock %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% load custom_filters %}
 
 {% block content %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'Css/dashboard.css' %}">
-<div class="container-fluid p-4">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-header text-white bg-success">Total de Rendas</div>
-                <div class="card-body">
-                    <h5 class="card-title">R$ {{ total_rendas|floatformat:2 }}</h5>
-                    <p class="card-text">Descrição das rendas.</p>
-                </div>
-            </div>
+<div class="dashboard">
+    <div class="top-windows">
+        <div class="window">
+            <div class="window-title">Saldo</div>
+            <div class="window-content">{{ saldo_atual|currency }}</div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-header text-white bg-success">Total de Despesas</div>
-                <div class="card-body">
-                    <h5 class="card-title">R$ {{ total_despesas|floatformat:2 }}</h5>
-                    <p class="card-text">Descrição das despesas.</p>
-                </div>
-            </div>
+        <div class="window entrada">
+            <div class="window-title">Entrada</div>
+            <div class="window-content">{{ total_rendas|currency }}</div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-header text-white bg-success">Saldo</div>
-                <div class="card-body">
-                    <h5 class="card-title">R$ {{ saldo_atual|floatformat:2 }}</h5>
-                    <p class="card-text">Descrição do saldo.</p>
-                </div>
-            </div>
+        <div class="window saida">
+            <div class="window-title">Saída</div>
+            <div class="window-content">{{ total_despesas|currency }}</div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 d-flex justify-content-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="chart-container chart-container-categorias">
-                        <canvas id="graficoCategorias"></canvas>
-                    </div>
-                </div>
+    <div class="center-windows">
+        <div class="window no-title">
+            <div class="window-content">
+                <canvas id="barChart" width="400" height="200"></canvas>
             </div>
         </div>
-        <div class="col-md-6 d-flex justify-content-center">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="chart-container chart-container-porcentagens">
-                        <canvas id="graficoPorcentagens"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="table-container">
-                <table class="table table-bordered">
-                    <thead class="bg-success text-white">
-                        <tr>
-                            <th>Despesas Parceladas</th>
-                            <th>Parcelas Pagas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for nome, parcelas_formatadas in prestacoes %}
-                        <tr>
-                            <td>{{ nome }}</td>
-                            <td>{{ parcelas_formatadas }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="table-container">
-                <table class="table table-bordered">
-                    <thead class="bg-success text-white">
-                        <tr>
-                            <th>Despesas Fixas</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for nome, valor in despesas_fixas %}
-                        <tr>
-                            <td>{{ nome }}</td>
-                            <td>R$ {{ valor|floatformat:2 }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td><strong>Total</strong></td>
-                            <td><strong>R$ {{ valor_total_fixas|floatformat:2 }}</strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
+        <div class="window no-title">
+            <div class="window-content">
+                <canvas id="doughnutChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
 </div>
 
-{% block scripts %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'Js/dashboard.js' %}"></script>
 <script id="categorias_json" type="application/json">{{ categorias_json|safe }}</script>
 <script id="valores_json" type="application/json">{{ valores_json|safe }}</script>
 <script id="categorias_porcentagem_json" type="application/json">{{ categorias_porcentagem_json|safe }}</script>
 <script id="porcentagens_json" type="application/json">{{ porcentagens_json|safe }}</script>
-{% endblock %}
 {% endblock %}

@@ -44,14 +44,11 @@
                 </form>
                 <form method="post" action="{% url 'delete_despesas' %}">
                     {% csrf_token %}
-                    <button type="submit" name="excluir" value="excluir" class="btn btn-danger w-100">Excluir Despesas Selecionadas</button>
-                </form>
+                    <button type="submit" name="excluir" value="excluir" class="btn btn-danger w-100 mb-2">Excluir Despesas Selecionadas</button>
             </div>
             <!-- Coluna da lista de despesas -->
             <div class="col-md-8">
                 <div class="table-container">
-                    <form method="post" action="{% url 'delete_despesas' %}">
-                        {% csrf_token %}
                         <table class="table table-bordered table-striped">
                             <thead class="table-success">
                                 <tr>
