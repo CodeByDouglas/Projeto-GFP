@@ -3,30 +3,30 @@
 {% block title %}Painel de Controle{% endblock %}
 
 {% block content %}
-<div class="container-fluid p-4">
+<div class="container-fluid p-4" style="background-color: #182933;">
     <div class="row">
         <div class="col-md-4">
-            <div class="card bg-light mb-3">
-                <div class="card-header">Total de Rendas</div>
-                <div class="card-body">
+            <div class="card mb-3">
+                <div class="card-header text-white bg-success">Total de Rendas</div>
+                <div class="card-body" style="background-color: #ecf0f1;">
                     <h5 class="card-title">R$ {{ total_rendas|floatformat:2 }}</h5>
                     <p class="card-text">Descrição das rendas.</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card bg-light mb-3">
-                <div class="card-header">Total de Despesas</div>
-                <div class="card-body">
+            <div class="card mb-3">
+                <div class="card-header text-white bg-success">Total de Despesas</div>
+                <div class="card-body" style="background-color: #ecf0f1;">
                     <h5 class="card-title">R$ {{ total_despesas|floatformat:2 }}</h5>
                     <p class="card-text">Descrição das despesas.</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card bg-light mb-3">
-                <div class="card-header">Saldo</div>
-                <div class="card-body">
+            <div class="card mb-3">
+                <div class="card-header text-white bg-success">Saldo</div>
+                <div class="card-body" style="background-color: #ecf0f1;">
                     <h5 class="card-title">R$ {{ saldo_atual|floatformat:2 }}</h5>
                     <p class="card-text">Descrição do saldo.</p>
                 </div>
@@ -34,8 +34,71 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <canvas id="graficoCategorias"></canvas>
+        <div class="col-md-6 d-flex justify-content-center">
+            <div class="card mb-3" style="background-color: #ecf0f1;">
+                <div class="card-body">
+                    <div class="chart-container chart-container-categorias">
+                        <canvas id="graficoCategorias"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center">
+            <div class="card mb-3" style="background-color: #ecf0f1;">
+                <div class="card-body">
+                    <div class="chart-container chart-container-porcentagens">
+                        <canvas id="graficoPorcentagens"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="table-container">
+                <table class="table table-bordered" style="background-color: #ecf0f1;">
+                    <thead class="bg-success text-white">
+                        <tr>
+                            <th>Despesas Parceladas</th>
+                            <th>Parcelas Pagas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nome, parcelas_formatadas in prestacoes %}
+                        <tr>
+                            <td>{{ nome }}</td>
+                            <td>{{ parcelas_formatadas }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-container">
+                <table class="table table-bordered" style="background-color: #ecf0f1;">
+                    <thead class="bg-success text-white">
+                        <tr>
+                            <th>Despesas Fixas</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nome, valor in despesas_fixas %}
+                        <tr>
+                            <td>{{ nome }}</td>
+                            <td>R$ {{ valor|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>R$ {{ valor_total_fixas|floatformat:2 }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -45,20 +108,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('graficoCategorias').getContext('2d');
-    var graficoCategorias = new Chart(ctx, {
+    var ctxCategorias = document.getElementById('graficoCategorias').getContext('2d');
+    var graficoCategorias = new Chart(ctxCategorias, {
         type: 'bar',
         data: {
             labels: JSON.parse('{{ categorias_json|safe }}'), // Array de rótulos
             datasets: [{
                 label: 'Despesas por Categoria',
                 data: JSON.parse('{{ valores_json|safe }}'), // Array de valores
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(25, 135, 84, 0.5)', // Cor verde com transparência
+                borderColor: 'rgba(25, 135, 84, 1)', // Cor verde sem transparência
                 borderWidth: 1
             }]
         },
         options: {
+            plugins: {
+                legend: {
+                    display: false // Desativa a legenda para remover o botão de filtro
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true
@@ -66,6 +134,112 @@
             }
         }
     });
+
+    var ctxPorcentagens = document.getElementById('graficoPorcentagens').getContext('2d');
+    var graficoPorcentagens = new Chart(ctxPorcentagens, {
+        type: 'doughnut',
+        data: {
+            labels: JSON.parse('{{ categorias_porcentagem_json|safe }}'), // Array de rótulos
+            datasets: [{
+                label: 'Porcentagem de Despesas por Categoria',
+                data: JSON.parse('{{ porcentagens_json|safe }}'), // Array de valores
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(199, 199, 199, 0.5)',
+                    'rgba(83, 102, 255, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(199, 199, 199, 1)',
+                    'rgba(83, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'left', // Posiciona a legenda acima do gráfico
+                    labels: {
+                        color: '#182933' // Define a cor do texto da legenda para garantir visibilidade
+                    }
+                }
+            }
+        }
+    });
 </script>
+<style>
+    body {
+        background-color: #182933; /* Define a cor de fundo da página */
+        overflow: hidden; /* Impede a rolagem da página */
+    }
+    .chart-container {
+        width: 50vw; /* 50% da largura da viewport */
+        height: 33vh; /* 33% da altura da viewport */
+    }
+    .chart-container-categorias {
+        width: 60vw; /* Ajuste o tamanho do gráfico de categorias */
+        height: 40vh; /* Ajuste o tamanho do gráfico de categorias */
+    }
+    .chart-container-porcentagens {
+        width: 50vw; /* Ajuste o tamanho do gráfico de porcentagens */
+        height: 38vh; /* Ajuste o tamanho do gráfico de porcentagens */
+    }
+    .table-container {
+        max-height: 190px; /* Altura máxima da tabela ajustada */
+        overflow-y: auto; /* Permite rolagem vertical */
+        margin-top: -20px; /* Sobe a tabela um pouco para cima */
+    }
+    .table {
+        width: 100%; /* Largura da tabela */
+        border-radius: 10px; /* Cantos arredondados da tabela */
+        overflow: hidden; /* Garante que o conteúdo da tabela não ultrapasse os cantos arredondados */
+        background-color: #ecf0f1; /* Fundo para melhor visibilidade */
+    }
+    .col-md-6 .table-container {
+        width: 100%; /* Metade da largura da coluna */
+    }
+    .table thead th {
+        position: sticky;
+        top: 0;
+        background: #198754; /* Cor de fundo do cabeçalho para melhorar visibilidade */
+        z-index: 1;
+    }
+    .card {
+        background-color: #ecf0f1; /* Fundo para os cartões */
+    }
+    .card-header {
+        background-color: #198754; /* Cor de fundo do cabeçalho dos cartões */
+    }
+    .card-body {
+        color: #182933; /* Cor do texto do corpo dos cartões */
+    }
+    /* Estilizando a barra de rolagem */
+    .table-container::-webkit-scrollbar {
+        width: 8px; /* Largura da barra de rolagem */
+    }
+    .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+    }
+    .table-container::-webkit-scrollbar-thumb {
+        background: #888; /* Cor da barra de rolagem */
+        border-radius: 10px; /* Cantos arredondados da barra de rolagem */
+    }
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Cor da barra de rolagem ao passar o mouse */
+    }
+</style>
 {% endblock %}
 {% endblock %}

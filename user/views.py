@@ -16,7 +16,7 @@ from django.contrib.auth import views as auth_views #? Importa as views genéric
 from django.urls import path #? Função usada para definir as rotas (URLs) da aplicação.
 from user.Calculos.calculos import soma_valores, subtrair_valores, calcular_porcentagens, calcular_parcelas_restantes
 import datetime
-from user.utils.funcao_categoria_json import calcular_valores_por_categoria
+from user.utils.funcoes_calculo import calcular_valores_por_categoria, calcular_porcentagem_por_categoria, calcular_prestacoes_restantes, calcular_despesas_fixas
 
 
 
@@ -47,6 +47,15 @@ def dashboard(request):
     saldo_atual = subtrair_valores(total_rendas, total_despesas)
 
     categorias_json, valores_json = calcular_valores_por_categoria(request.user)
+
+    categorias_porcentagem_json, porcentagens_json = calcular_porcentagem_por_categoria(request.user)
+    
+    nomes_despesas, parcelas_restantes_list, parcelas_formatadas_list, datas_finais_list = calcular_prestacoes_restantes(request.user)
+   
+    nomes_despesas_fixas, valores_despesas_fixas, valor_total_fixas = calcular_despesas_fixas(request.user)
+
+    prestacoes = zip(nomes_despesas, parcelas_formatadas_list)
+    despesas_fixas = zip(nomes_despesas_fixas, valores_despesas_fixas)
     
     context = {
         'total_despesas': total_despesas,
@@ -54,6 +63,12 @@ def dashboard(request):
         'saldo_atual': saldo_atual,
         'categorias_json': categorias_json,
         'valores_json': valores_json,
+        'categorias_porcentagem_json': categorias_porcentagem_json,
+        'porcentagens_json': porcentagens_json,
+        'prestacoes': prestacoes,
+        'despesas_fixas': despesas_fixas,
+        'valor_total_fixas': valor_total_fixas,
+    
     }
     return render(request, 'user/dashboard.html', context)
 
@@ -333,3 +348,16 @@ def total_despesas_view(request):
     }
     return render(request, 'user/total_despesas.html', context)
 
+@login_required
+def dashboard_view(request):
+    categorias_json, valores_json = calcular_valores_por_categoria(request.user)
+    categorias_porcentagem_json, porcentagens_json = calcular_porcentagem_por_categoria(request.user)
+    
+    context = {
+        'categorias_json': categorias_json,
+        'valores_json': valores_json,
+        'categorias_porcentagem_json': categorias_porcentagem_json,
+        'porcentagens_json': porcentagens_json,
+    }
+    
+    return render(request, 'user/dashboard.html', context)
