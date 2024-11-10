@@ -19,7 +19,7 @@ h2 {
 }
 
 .table thead {
-    background-color: #28a745;
+    background-color: #198754;
     color: white;
 }
 
@@ -33,7 +33,7 @@ tfoot td {
 }
 
 button {
-    background-color: #28a745;
+    background-color: #198754;
     color: white;
     border: none;
     font-size: 16px;
@@ -41,5 +41,5 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #146c43;
 }
