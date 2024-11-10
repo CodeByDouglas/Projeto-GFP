@@ -1,0 +1,35 @@
+{% load static %} <!--?Carrega os arquivos estaticos referenciados no código.-->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Css/cadastro.css' %}"><!--? passa o caminho para a pasta 'user'onde se localiza o arequivo CSS para essa página-->
+    <title>Cadastro</title>
+</head>
+<body>
+    <div class="container">
+        <div class="cadastro-title">
+            <h1>Cadastro</h1>
+        </div>
+        <div class="input-group">
+            <div class="input-box">
+                <form method="POST">
+                    {% csrf_token %}<!--?Garente que o post feito seja reconhecido pela autenticação interna do django-->
+                    {{ form.as_p }}<!--?enderiza o formulário em formato de parágrafos (<p>), ou seja, cada campo do formulário será colocado dentro de um parágrafo HTML-->
+                    <button type="submit" class="confirmar-btn">Confirmar</button>
+                </form>
+            </div>
+            <div class="input-box">
+                {% if messages %}><!--?passa as mensagens pre definidas nos viws como "Esse user já existe" ou "Cadastro ralizado" -->
+                <div class="menssage">
+                    {% for message in messages %}<!--? Loop pera exibir a msg-->
+                    <p>{{ message }}</p><!--?Exibe de fato a mensagem-->
+                    {% endfor %}<!--?Determina o fim do loop-->
+                </div>
+                {% endif %}<!--? Determina o do if-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

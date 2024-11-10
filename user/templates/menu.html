@@ -3,25 +3,18 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    
-    <link rel="stylesheet" href="{% static 'user/menu.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Painel de Controle{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .login-image {
-            width: 100px; /* Ajuste conforme necessário */
-            height: 100px; /* Ajuste conforme necessário */
-            object-fit: cover; /* Mantém a proporção da imagem */
-            border-radius: 50%; /* Torna a imagem circular */
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>{% block title %}Painel de Controle{% endblock %}</title>
 </head>
 <body>
     <div class="d-flex">
         <div class="bg-dark text-light p-3 sidebar">
             <div class="user-icon mb-4">
-                <img src="{% static 'user/image/account.png' %}" alt="Ícone de login" class="login-image">
+                <img src="{% static 'image/avatar.png' %}" alt="Ícone de login" class="login-image">
             </div>
             <nav class="nav flex-column">
                 <a href="{% url 'perfil' %}" class="nav-link text-light btn btn-success mb-2">Perfil</a>
@@ -40,7 +33,15 @@
                 </div>
                 <a href="{% url 'trilha' %}" class="nav-link text-light btn btn-success mb-2">Trilha de Aprendizado</a>
             </nav>
-            <a href="{% url 'trilha' %}" class="btn btn-secondary mt-5">Ajuda</a>
+            <a href="{% url 'trilha' %}" class="btn btn-secondary mt-5 w-100">
+                <i class="fas fa-question-circle"></i> Ajuda
+            </a>
+            <form method="post" action="{% url 'logout' %}" class="w-100">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger mt-2 w-100">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </form>
         </div>
         <div class="container-fluid p-4">
             {% block content %}

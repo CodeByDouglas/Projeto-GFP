@@ -1,10 +1,10 @@
-{% extends 'user/menu.html' %}
+{% extends 'menu.html' %}
 
 {% block title %}Extrato de Despesas{% endblock %}
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'user/extrato.css' %}">
+<link rel="stylesheet" href="{% static 'CSS/extrato.css' %}">
 
 <div class="content-wrapper">
     <div class="container mt-5">
@@ -40,7 +40,11 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-success w-100">Filtrar Extrato</button>
+                    <button type="submit" class="btn btn-success w-100 mb-2">Filtrar Extrato</button>
+                </form>
+                <form method="post" action="{% url 'delete_despesas' %}">
+                    {% csrf_token %}
+                    <button type="submit" name="excluir" value="excluir" class="btn btn-danger w-100">Excluir Despesas Selecionadas</button>
                 </form>
             </div>
             <!-- Coluna da lista de despesas -->
@@ -82,7 +86,6 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <button type="submit" name="excluir" value="excluir" class="btn btn-danger w-50 mx-auto d-block">Excluir Despesas Selecionadas</button>
                     </form>
                 </div>
             </div>
@@ -90,5 +93,12 @@
     </div>
 </div>
 
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'Js/extrato.js' %}"></script>
+<script id="categorias_json" type="application/json">{{ categorias_json|safe }}</script>
+<script id="valores_json" type="application/json">{{ valores_json|safe }}</script>
+<script id="categorias_porcentagem_json" type="application/json">{{ categorias_porcentagem_json|safe }}</script>
+<script id="porcentagens_json" type="application/json">{{ porcentagens_json|safe }}</script>
+{% endblock %}
 {% endblock %}

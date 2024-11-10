@@ -1,5 +1,3 @@
-
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -120,4 +118,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/dashboard/'  #?Redireciona para a página do dashboard após o login
 LOGIN_URL = '/login/'  #?Indica para onde e direcionado um usuário que tentar entra em uma página que necessita de login
 
-
+LOGOUT_REDIRECT_URL = 'login'  # Redireciona para a página de login após o logout

@@ -1,22 +1,21 @@
-{% extends 'user/menu.html' %}
+{% extends 'menu.html' %}
 
-{% block title %}Prestações{% endblock %}
+{% block title %}Despesa{% endblock %}
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'user/despesa_parcelada.css' %}">
+<link rel="stylesheet" href="{% static 'Css/despesa_comum.css' %}">
 <div class="container mt-5">
     <div class="card mx-auto" style="max-width: 400px;">
         <div class="card-body">
-            <h3 class="card-title text-center">Prestações</h3>
+            <h3 class="card-title text-center">Despesa</h3>
 
-            <!-- Exibe mensagens de sucesso/erro -->
             {% if messages %}
-                <div class="alert alert-success">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
+            <div class="alert alert-success">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
             {% endif %}
 
             <form method="POST" novalidate id="despesa-form">
@@ -33,17 +32,13 @@
                     {{ form.categoria_despesa.label_tag }}
                     {{ form.categoria_despesa }}
                 </div>
-                <div class="mb-3">
-                    {{ form.parcelas.label_tag }}
-                    {{ form.parcelas }}
-                </div>
-
                 <button type="submit" class="btn btn-success w-100">Lançar Despesa</button>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal de sucesso -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -55,11 +50,11 @@
                 <span class="text-success fs-1">&#10004;</span> <!-- Símbolo de Validade -->
             </div>
             <div class="modal-footer border-0">
-                <a href="{% url 'despesa_parcelada' %}" class="nav-link text-light btn btn-success mb-2">ok</a>
+                <a href="{% url 'despesa_comum' %}" class="nav-link text-light btn btn-success mb-2">ok</a>
             </div>
         </div>
     </div>
 </div>
 
-<script src="{% static 'Js/despesa_parcelada.js' %}"></script>
+<script src="{% static 'Js/despesa_comum.js' %}"></script>
 {% endblock %}

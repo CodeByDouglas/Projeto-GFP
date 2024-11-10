@@ -19,7 +19,7 @@ h2 {
 
 .table thead {
     background-color: #198754;
-    color: white;
+    color: #343a40; /* Cor mais escura para o texto do cabeçalho */
 }
 
 .text-danger {
@@ -48,11 +48,31 @@ button:hover {
     overflow-y: auto; /* Permite rolagem vertical */
 }
 
+/* Estilização da barra de rolagem */
+.table-container::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #888; /* Cor da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas */
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor da barra de rolagem ao passar o mouse */
+}
+
 .table thead th {
     position: sticky;
     top: 0;
     background: #d1e7dd; /* Cor de fundo do cabeçalho para melhorar visibilidade */
     z-index: 1;
+    color: #343a40; /* Cor mais escura para o texto do cabeçalho */
 }
 
 .content-wrapper {

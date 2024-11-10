@@ -1,36 +1,47 @@
 import json
 import datetime
-from user.Calculos.calculos import calcular_porcentagens, soma_valores, calcular_parcelas_restantes
-from user.models import Despesa
+from user.Calculos.calculos import calcular_porcentagens, soma_valores, calcular_parcelas_restantes, subtrair_valores
+from user.models import Despesa, Renda
 
 def calcular_valores_por_categoria(usuario):
-    # Obtém todas as despesas do usuário logado
-    despesas = Despesa.objects.filter(usuario=usuario)
+    # Obtém o mês e ano atual
+    hoje = datetime.date.today()
+    mes_atual = hoje.month
+    ano_atual = hoje.year
     
-    # Inicializa um dicionário para armazenar os valores por categoria
-    categorias = Despesa.CATEGORIA_DESPESA_CHOICES
-    valores_por_categoria = {categoria: [] for categoria, _ in categorias}
+    # Obtém todas as despesas do usuário logado no mês atual
+    despesas = Despesa.objects.filter(usuario=usuario, data_despesa__year=ano_atual, data_despesa__month=mes_atual)
     
-    # Popula o dicionário com os valores das despesas
+    # Inicializa dicionários para armazenar os valores por categoria
+    valores_por_categoria = {}
+    
+    # Popula os dicionários com os resultados
     for despesa in despesas:
-        valores_por_categoria[despesa.categoria_despesa].append(despesa.valor_despesa)
+        categoria = despesa.categoria_despesa
+        valor = float(despesa.valor_despesa)  # Converte Decimal para float
+        if categoria in valores_por_categoria:
+            valores_por_categoria[categoria] += valor
+        else:
+            valores_por_categoria[categoria] = valor
     
-    # Calcula o total por categoria usando a função soma_valores
-    total_por_categoria = {categoria: soma_valores(valores) for categoria, valores in valores_por_categoria.items()}
+    # Converte os dicionários para listas de rótulos e valores
+    categorias = list(valores_por_categoria.keys())
+    valores = list(valores_por_categoria.values())
     
-    # Separa as categorias e os valores em dois arrays
-    categorias_array = list(total_por_categoria.keys())
-    valores_array = list(total_por_categoria.values())
-    
-    # Converte os arrays para JSON
-    categorias_json = json.dumps(categorias_array)
-    valores_json = json.dumps(valores_array)
+    # Converte as listas para JSON
+    categorias_json = json.dumps(categorias)
+    valores_json = json.dumps(valores)
     
     return categorias_json, valores_json
 
 def calcular_porcentagem_por_categoria(usuario):
-    # Obtém todas as despesas do usuário logado
-    despesas = Despesa.objects.filter(usuario=usuario)
+    # Obtém o mês e ano atual
+    hoje = datetime.date.today()
+    mes_atual = hoje.month
+    ano_atual = hoje.year
+    
+    # Obtém todas as despesas do usuário logado no mês atual
+    despesas = Despesa.objects.filter(usuario=usuario, data_despesa__year=ano_atual, data_despesa__month=mes_atual)
     
     # Inicializa um dicionário para armazenar os valores por categoria
     categorias = Despesa.CATEGORIA_DESPESA_CHOICES
@@ -38,23 +49,23 @@ def calcular_porcentagem_por_categoria(usuario):
     
     # Popula o dicionário com os valores das despesas
     for despesa in despesas:
-        valores_por_categoria[despesa.categoria_despesa] += despesa.valor_despesa
+        valores_por_categoria[despesa.categoria_despesa] += float(despesa.valor_despesa)  # Converte Decimal para float
     
-    # Separa as categorias e os valores em dois arrays
-    categorias_array = list(valores_por_categoria.keys())
-    valores_array = list(valores_por_categoria.values())
+    # Calcula o total das despesas
+    total_despesas = sum(valores_por_categoria.values())
     
-    # Calcula o valor total das despesas
-    valor_total = sum(valores_array)
+    # Calcula a porcentagem de cada categoria
+    porcentagens_por_categoria = {categoria: (valor / total_despesas) * 100 if total_despesas > 0 else 0 for categoria, valor in valores_por_categoria.items()}
     
-    # Calcula as porcentagens usando a função calcular_porcentagens
-    porcentagens = calcular_porcentagens(valores_array, valor_total)
+    # Converte os dicionários para listas de rótulos e valores
+    categorias = list(porcentagens_por_categoria.keys())
+    porcentagens = list(porcentagens_por_categoria.values())
     
-    # Converte os arrays para JSON
-    categorias_json = json.dumps(categorias_array)
+    # Converte as listas para JSON
+    categorias_porcentagem_json = json.dumps(categorias)
     porcentagens_json = json.dumps(porcentagens)
     
-    return categorias_json, porcentagens_json
+    return categorias_porcentagem_json, porcentagens_json
 
 def calcular_prestacoes_restantes(usuario):
     # Obtém todas as despesas parceladas do usuário logado
@@ -109,3 +120,28 @@ def calcular_despesas_fixas(usuario):
     valor_total = soma_valores(valores_despesas)
     
     return nomes_despesas, valores_despesas, valor_total
+
+def calcular_totais(usuario):
+    # Obtém o mês e ano atual
+    hoje = datetime.date.today()
+    mes_atual = hoje.month
+    ano_atual = hoje.year
+    
+    # Obtém todas as despesas do usuário logado no mês atual
+    despesas = Despesa.objects.filter(usuario=usuario, data_despesa__year=ano_atual, data_despesa__month=mes_atual)
+    valores_despesas = [float(despesa.valor_despesa) for despesa in despesas]  # Converte Decimal para float
+    
+    # Calcula o total das despesas usando a função soma_valores
+    total_despesas = soma_valores(valores_despesas)
+    
+    # Obtém todas as rendas do usuário logado
+    rendas = Renda.objects.filter(usuario=usuario)
+    valores_rendas = [float(renda.valor_renda) for renda in rendas]  # Converte Decimal para float
+    
+    # Calcula o total das rendas usando a função soma_valores
+    total_rendas = soma_valores(valores_rendas)
+    
+    # Calcula o saldo atual usando a função subtrair_valores
+    saldo_atual = subtrair_valores(total_rendas, total_despesas)
+    
+    return total_despesas, total_rendas, saldo_atual

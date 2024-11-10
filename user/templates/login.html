@@ -5,11 +5,11 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'user/login.css' %}">  <!--? passa o caminho para a pasta 'user'onde se localiza o CSS-->
+    <link rel="stylesheet" href="{% static 'Css/login.css' %}">  <!--? passa o caminho para a pasta 'user'onde se localiza o CSS-->
     <title>Tela de login</title>
     <style>
         body {
-            background-image: url("{% static 'user/image/fund.png' %}"); /* Caminho para a imagem de fundo */
+            background-image: url("{% static 'image/fund.png' %}"); /* Caminho para a imagem de fundo */
             background-size: cover; /* Ajusta a imagem para cobrir toda a tela */
             background-position: center; /* Centraliza a imagem */
             background-repeat: no-repeat; /* Evita a repetição da imagem */
@@ -19,14 +19,14 @@
 <body>
     <div class="container">
         <div class="form-image">
-            <img src="{% static 'user/image/logo2.jpeg' %}" alt="Logo do projeto">  <!-- passa o caminho para a pasta 'user' onde está a logo-->
+            <img src="{% static 'image/logo2.jpeg' %}" alt="Logo do projeto">  <!-- passa o caminho para a pasta 'user' onde está a logo-->
         </div>
         <div class="form">
             <form method="post">
                 {% csrf_token %} <!--?Garente que o post feito seja reconhecido pela autenticação interna do django-->
                 <div class="form-header">
                     <div class="Title">
-                        <img src="{% static 'user/image/account.png' %}" alt="Ícone de login" class="login-image">  <!-- passa o caminho para a pasta 'user' onde está a imagem--> 
+                        <img src="{% static 'image/account.png' %}" alt="Ícone de login" class="login-image">  <!-- passa o caminho para a pasta 'user' onde está a imagem--> 
                     </div>
                 </div>
                 <div class="input-group">

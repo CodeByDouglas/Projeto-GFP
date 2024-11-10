@@ -1,16 +1,16 @@
-{% extends 'user/menu.html' %}          
+{% extends 'menu.html' %}          
 
 {% block title %}Perfil de Usuário{% endblock %}
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'user/perfil.css' %}">
+<link rel="stylesheet" href="{% static 'Css/perfil.css' %}">
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card p-4 shadow-sm">
                 <div class="text-center mb-3">
-                    <img src="https://via.placeholder.com/100" alt="Avatar do usuário" class="rounded-circle">
+                    <img src="{% static 'image/avatar.png' %}" alt="Avatar do usuário" class="rounded-circle">
                     <h3 class="mt-2">{{ user.username }}</h3>
                 </div>
                 <h4>Definições do Perfil</h4>
@@ -30,7 +30,7 @@
                                 </p>
                             {% endfor %}
                         {% else %}
-                            <p>Você não tem rendas cadastradas.</p>
+                            <p>Nenhuma renda cadastrada.</p>
                         {% endif %}
                     </div>
                 </div>

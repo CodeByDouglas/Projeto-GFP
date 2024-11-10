@@ -16,7 +16,7 @@ from django.contrib.auth import views as auth_views #? Importa as views genéric
 from django.urls import path #? Função usada para definir as rotas (URLs) da aplicação.
 from user.Calculos.calculos import soma_valores, subtrair_valores, calcular_porcentagens, calcular_parcelas_restantes
 import datetime
-from user.utils.funcoes_dashboard import calcular_valores_por_categoria, calcular_porcentagem_por_categoria, calcular_prestacoes_restantes, calcular_despesas_fixas
+from user.utils.funcoes_dashboard import calcular_valores_por_categoria, calcular_porcentagem_por_categoria, calcular_prestacoes_restantes, calcular_despesas_fixas, calcular_totais
 
 
 
@@ -24,36 +24,26 @@ from user.utils.funcoes_dashboard import calcular_valores_por_categoria, calcula
 #?LoginView: view genérica do Django que já lida com o processo de login de usuários. Ela verifica as credenciais, autentica o usuário e o redireciona para uma página após o login, se for bem-sucedido.
 
 class CustomLoginView(auth_views.LoginView):
-    template_name = 'user/login.html'  #? Template para o login
+    template_name = 'login.html'  #? Template para o login
     success_url = reverse_lazy('dashboard')  #? Após login bem-sucedido, redireciona ao dashboard
 
 @login_required
 def dashboard(request):
-    # Obtém todas as despesas do usuário logado
-    despesas = Despesa.objects.filter(usuario=request.user)
-    valores_despesas = [despesa.valor_despesa for despesa in despesas]
+    # Calcula os totais de despesas, rendas e saldo
+    total_despesas, total_rendas, saldo_atual = calcular_totais(request.user)
     
-    # Calcula o total das despesas usando a função soma_valores
-    total_despesas = soma_valores(valores_despesas)
-    
-    # Obtém todas as rendas do usuário logado
-    rendas = Renda.objects.filter(usuario=request.user)
-    valores_rendas = [renda.valor_renda for renda in rendas]
-    
-    # Calcula o total das rendas usando a função soma_valores
-    total_rendas = soma_valores(valores_rendas)
-    
-    # Calcula o saldo atual como renda - despesa
-    saldo_atual = subtrair_valores(total_rendas, total_despesas)
-
+    # Calcula os valores por categoria
     categorias_json, valores_json = calcular_valores_por_categoria(request.user)
-
+    
+    # Calcula as porcentagens por categoria
     categorias_porcentagem_json, porcentagens_json = calcular_porcentagem_por_categoria(request.user)
     
+    # Calcula as prestações restantes
     nomes_despesas, parcelas_restantes_list, parcelas_formatadas_list, datas_finais_list = calcular_prestacoes_restantes(request.user)
-   
+    
+    # Calcula as despesas fixas
     nomes_despesas_fixas, valores_despesas_fixas, valor_total_fixas = calcular_despesas_fixas(request.user)
-
+    
     prestacoes = zip(nomes_despesas, parcelas_formatadas_list)
     despesas_fixas = zip(nomes_despesas_fixas, valores_despesas_fixas)
     
@@ -68,9 +58,9 @@ def dashboard(request):
         'prestacoes': prestacoes,
         'despesas_fixas': despesas_fixas,
         'valor_total_fixas': valor_total_fixas,
-    
+        
     }
-    return render(request, 'user/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 def cadastrar_usuario(request):
     if request.method == 'POST':
@@ -89,7 +79,7 @@ def cadastrar_usuario(request):
     else:
         form = CadastroForm()
     
-    return render(request, 'user/cadastro.html', {'form': form})
+    return render(request, 'cadastro.html', {'form': form})
 '''
 #//TODO: Função cadastrar_usuario(request)
 #* def cadastrar_usuario(request)::
@@ -156,7 +146,7 @@ def lancar_despesa_fixa(request):
             messages.success(request, 'Despesa lançada com sucesso!')
     else:
         form = DespesaFixaForm()
-    return render(request, 'user/despesa_fixa.html', {'form': form})
+    return render(request, 'despesa_fixa.html', {'form': form})
 
 @login_required
 def lancar_despesa_parcelada(request):
@@ -171,7 +161,7 @@ def lancar_despesa_parcelada(request):
     
     else:
         form = DespesaParceladaForm()
-    return render(request, 'user/despesa_parcelada.html', {'form': form})
+    return render(request, 'despesa_parcelada.html', {'form': form})
 
 @login_required
 def lancar_despesa_comum(request):
@@ -187,7 +177,7 @@ def lancar_despesa_comum(request):
             
     else:
         form = DespesaComumForm()
-    return render(request, 'user/despesa_comum.html', {'form': form})
+    return render(request, 'despesa_comum.html', {'form': form})
 
 def perfil(request):
     user = request.user
@@ -199,7 +189,7 @@ def perfil(request):
         'user': user,
         'rendas': rendas,  # Passa a lista de rendas para o contexto
     }
-    return render(request, 'user/perfil.html', context)
+    return render(request, 'perfil.html', context)
 
 
 @login_required
@@ -234,11 +224,11 @@ def alterar_renda(request, renda_id):
 
         return redirect('perfil')  # Redireciona para a página de perfil
 
-    return render(request, 'user/perfil.html', {'renda': renda})
+    return render(request, 'perfil.html', {'renda': renda})
 
 
 def trilha_view(request):
-    return render(request, 'user/trilha.html')
+    return render(request, 'trilha.html')
 
 
 
@@ -246,7 +236,7 @@ def trilha_view(request):
 def extrato_view(request):
     despesas = Despesa.objects.filter(usuario=request.user).order_by('-data_despesa')
     
-    # Filtragem por ano, mês e categoria, caso os parâmetros estejam presentes
+    # Filtragem por ano, mês e categoria, caso os par��metros estejam presentes
     ano = request.GET.get('ano')
     mes = request.GET.get('mes')
     categoria = request.GET.get('categoria')
@@ -282,7 +272,7 @@ def extrato_view(request):
         'mes_selecionado': mes_selecionado,
         
     }
-    return render(request, 'user/extrato.html', context)
+    return render(request, 'extrato.html', context)
 
 @login_required
 def delete_despesas(request):
@@ -293,58 +283,3 @@ def delete_despesas(request):
             messages.success(request, 'Despesas excluídas com sucesso!')
        
     return redirect('extrato')  # redireciona de volta para a página de extrato
-
-@login_required
-def total_despesas_view(request):
-    # Obtém todas as despesas do usuário logado
-    despesas = Despesa.objects.filter(usuario=request.user)
-    valores_despesas = [despesa.valor_despesa for despesa in despesas]
-    
-    # Calcula o total das despesas usando a função soma_valores
-    total_despesas = soma_valores(valores_despesas)
-    
-    # Obtém todas as rendas do usuário logado
-    rendas = Renda.objects.filter(usuario=request.user)
-    valores_rendas = [renda.valor_renda for renda in rendas]
-    
-    # Calcula o total das rendas usando a função soma_valores
-    total_rendas = soma_valores(valores_rendas)
-    
-    # Calcula o saldo atual usando a função subtrair_valores
-    saldo_atual = subtrair_valores(total_rendas,total_despesas)
-    
-    # Calcula os valores gastos por cada categoria
-    categorias = Despesa.CATEGORIA_DESPESA_CHOICES
-    valores_por_categoria = {categoria: [] for categoria, _ in categorias}
-    for despesa in despesas:
-        valores_por_categoria[despesa.categoria_despesa].append(despesa.valor_despesa)
-    
-    total_por_categoria = {categoria: soma_valores(valores) for categoria, valores in valores_por_categoria.items()}
-    
-    # Calcula as porcentagens das despesas por categoria
-    valores = list(total_por_categoria.values())
-    porcentagens = calcular_porcentagens(valores, total_rendas)
-    
-    porcentagens_por_categoria = {categoria: porcentagens[i] for i, (categoria, _) in enumerate(categorias)}
-    
-    # Calcula as parcelas restantes das despesas parceladas
-    despesas_parceladas = despesas.filter(tipo_despesa='parcelada')
-    quantidade_parcelas = [despesa.parcelas for despesa in despesas_parceladas]
-    anos_inicio = [despesa.data_despesa.year for despesa in despesas_parceladas]
-    meses_inicio = [despesa.data_despesa.month for despesa in despesas_parceladas]
-    mes_atual = datetime.datetime.now().month
-    ano_atual = datetime.datetime.now().year
-    
-    parcelas_restantes = calcular_parcelas_restantes(quantidade_parcelas, meses_inicio, anos_inicio, mes_atual, ano_atual)
-    
-    # Passa o total para o template
-    context = {
-        'total_despesas': total_despesas,
-        'total_rendas': total_rendas,
-        'saldo_atual': saldo_atual,
-        'total_por_categoria': total_por_categoria,
-        'porcentagens_por_categoria': porcentagens_por_categoria,
-        'despesas_parceladas': zip(despesas_parceladas, parcelas_restantes),
-    }
-    return render(request, 'user/total_despesas.html', context)
-

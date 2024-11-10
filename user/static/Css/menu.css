@@ -22,6 +22,15 @@ body {
     margin: 20px 0;
 }
 
+.login-image {
+    width: 100px; /* Ajuste conforme necessário */
+    height: 100px; /* Ajuste conforme necessário */
+    object-fit: cover; /* Mantém a proporção da imagem */
+    border-radius: 50%; /* Torna a imagem circular */
+    border: 5px solid #28a745; /* Cor verde */
+    padding: 2px; /* Espaçamento entre a imagem e a borda */
+}
+
 .nav {
     flex-grow: 1;
 }
@@ -55,4 +64,3 @@ body {
 .sidebar.minimized .toggle-btn {
     right: 10px; 
 }
-
