@@ -27,6 +27,16 @@ body {
     
     
 }
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px; /* Arredondando as bordas dos campos de inserção */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+}
 
 
 

@@ -2,6 +2,10 @@
     margin-left: 10px; /* Ajuste conforme necessário para dar espaço ao menu lateral */
     padding: 20px;
 }
+body{
+    background-color: #182933;
+    
+}
 
 .timeline {
     position: relative;
@@ -14,7 +18,7 @@
     position: absolute;
     width: 100%;
     height: 4px;
-    background-color: #ccc;
+    background-color:  #ecf0f1;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
@@ -24,7 +28,7 @@
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: #007bff;
+    background-color: #198754;
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
@@ -48,7 +52,7 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #ecf0f1;
 }
 
 .instruction {
