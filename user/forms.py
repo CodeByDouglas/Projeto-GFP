@@ -96,6 +96,9 @@ class DespesaFixaForm(forms.ModelForm):
     class Meta:
         model = Despesa
         fields = ['nome_despesa', 'valor_despesa', 'categoria_despesa', 'data_final']
+        widgets = {
+            'data_final': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
         
 class DespesaParceladaForm(forms.ModelForm):
     class Meta:
@@ -106,9 +109,3 @@ class DespesaComumForm(forms.ModelForm):
     class Meta:
         model = Despesa
         fields = ['nome_despesa', 'valor_despesa', 'categoria_despesa', ]
-
-
-
-
-
-

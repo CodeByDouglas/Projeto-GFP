@@ -36,8 +36,63 @@
             </div>
         </div>
     </div>
+    <div class="bottom-windows">
+        <div class="window larger-window">
+            <div class="window-title">Prestações Restantes</div>
+            <div class="window-content scrollable">
+                <div class="table-container">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Despesa</th>
+                                <th>Parcelas Restantes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for nome, prestacao in prestacoes %}
+                                <tr>
+                                    <td>{{ nome }}</td>
+                                    <td>{{ prestacao }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center">Nenhuma prestação encontrada.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="window larger-window">
+            <div class="window-title">Despesas Fixas</div>
+            <div class="window-content scrollable">
+                <div class="table-container">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Despesa</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for nome, valor in despesas_fixas %}
+                                <tr>
+                                    <td>{{ nome }}</td>
+                                    <td>{{ valor }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center">Nenhuma despesa fixa encontrada.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">

@@ -18,7 +18,7 @@
                         <select id="ano" name="ano" class="form-select">
                             <option value="">Geral</option>
                             {% for ano in anos %}
-                                <option value="{{ ano.year }}" {% if ano.year|stringformat:"d" == ano_selecionado|stringformat:"d" %}selected{% endif %}>{{ ano.year }}</option>
+                                <option value="{{ ano|date:"Y" }}" {% if ano.year|stringformat:"d" == ano_selecionado|stringformat:"d" %}selected{% endif %}>{{ ano|date:"Y" }}</option>
                             {% endfor %}
                         </select>
                     </div>

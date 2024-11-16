@@ -1,23 +1,23 @@
 body.dashboard {
-    background-color: #182933;
     font-family: 'Montserrat', sans-serif;
-    overflow: hidden; /* Impede a rolagem da página */
 }
 
 body {
     background-color: #182933;
+    overflow: hidden;
 }
 
-.top-windows {
+.dashboard {
+    zoom: 80%; /* Define o zoom apenas para o contêiner do dashboard */
+}
+
+.top-windows, .center-windows, .bottom-windows {
     display: flex;
     justify-content: space-between;
     padding: 20px;
 }
 
-.center-windows {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
+.center-windows, .bottom-windows {
     gap: 20px; /* Espaço entre as janelas */
 }
 
@@ -38,6 +38,13 @@ body {
     height: 308px; /* Aumenta a altura em 8px */
 }
 
+.window.larger-window {
+    width: 50%; /* Ocupa 50% da largura da tela */
+    height: calc(50vh - 25vh + 110px); /* Ajusta a altura para não ultrapassar o menu lateral e estende 10px abaixo da tabela */
+    display: flex;
+    flex-direction: column;
+}
+
 .window:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -53,13 +60,15 @@ body {
     text-align: center;
     border-top-left-radius: 15px; /* Bordas arredondadas no topo esquerdo */
     border-top-right-radius: 15px; /* Bordas arredondadas no topo direito */
+    position: sticky; /* Torna o título fixo */
+    top: 0; /* Fixa o título no topo da janela rolável */
+    z-index: 2; /* Garante que o título fique acima do conteúdo rolável */
 }
 
 .window-content {
     flex-grow: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     padding: 10px;
     font-size: 2em; /* Aumenta o tamanho dos números */
     font-weight: bold;
@@ -68,21 +77,34 @@ body {
     border-bottom-right-radius: 15px; /* Bordas arredondadas na parte inferior direita */
 }
 
-.window-content canvas {
-    width: 95% !important; /* Define a largura do canvas para 95% da janela */
-    height: 95% !important; /* Define a altura do canvas para 95% da janela */
+.scrollable {
+    flex-grow: 1;
+    overflow-y: auto; /* Permite rolagem vertical */
+    padding-right: 10px; /* Adiciona padding à direita para afastar a barra de rolagem */
+    box-sizing: border-box; /* Inclui o padding no cálculo da largura */
 }
 
-.entrada .window-content {
-    color: #0ea760; /* Cor verde para o conteúdo da janela de entrada */
+/* Estilização da barra de rolagem */
+.scrollable::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
 }
 
-.saida .window-content {
-    color: #ff0000; /* Cor vermelha para o conteúdo da janela de saída */
+.scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas */
 }
 
-/* Estilo para as categorias */
-.chartjs-legend li {
-    font-size: 1.2em; /* Aumenta o tamanho da fonte das categorias */
-    color: #182933; /* Define a cor da fonte das categorias */
+.scrollable::-webkit-scrollbar-thumb {
+    background: #888; /* Cor da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas */
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor da barra de rolagem ao passar o mouse */
+}
+
+/* Estilização do cabeçalho da tabela */
+.table-container thead th {
+    background: #d1e7dd; /* Cor de fundo do cabeçalho para melhorar visibilidade */
+    color: #343a40; /* Cor mais escura para o texto do cabeçalho */
 }
