@@ -1,10 +1,15 @@
 .timeline-container {
     margin-left: 10px; /* Ajuste conforme necessário para dar espaço ao menu lateral */
-    padding: 20px;
+    padding: 5px;
+    display: flex; /* Adiciona flexbox para layout horizontal */
+    flex-direction: column;
+    gap: 10px; /* Espaço entre linha do tempo e info-box */
 }
-body{
+
+body {
     background-color: #182933;
-    
+    margin: 0; /* Remove a margem padrão */
+    overflow: hidden; /* Previne rolagem da página inteira */
 }
 
 .timeline {
@@ -18,7 +23,7 @@ body{
     position: absolute;
     width: 100%;
     height: 4px;
-    background-color:  #ecf0f1;
+    background-color: #ecf0f1;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
@@ -48,14 +53,80 @@ body{
 .step[data-step="11"] { left: 100%; }
 
 .info-box {
-    margin-top: 20px;
+    flex: 1; /* Faz a info-box ocupar todo o espaço restante */
+    max-height: calc(100vh - 160px); /* Ajusta a altura com base na janela e na timeline */
+    overflow-y: auto; /* Permite rolagem vertical */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #ecf0f1;
+    display: block;
+    margin: 10px;
+}
+.info-box img{
+    border-radius: 15px;
+}
+/* Personalização da barra de rolagem */
+.info-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.info-box::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.info-box::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
 
 .instruction {
     margin-top: 20px;
     font-style: italic;
+}
+/* Popup principal - fundo */
+.image-popup {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    z-index: 1000; /* Para aparecer acima de outros elementos */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Conteúdo do popup */
+.popup-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Imagem no popup */
+.popup-content img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+}
+
+/* Botão de fechar */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1001;
+}
+
+.close-btn:hover {
+    color: #ff0000;
 }

@@ -9,6 +9,7 @@
 <div class="timeline-container">
     <div class="timeline">
         <div class="line"></div>
+
         <div class="step" data-step="1" onclick="showInfo(1)"></div>
         <div class="step" data-step="2" onclick="showInfo(2)"></div>
         <div class="step" data-step="3" onclick="showInfo(3)"></div>
@@ -21,11 +22,21 @@
         <div class="step" data-step="10" onclick="showInfo(10)"></div>
         <div class="step" data-step="11" onclick="showInfo(11)"></div>
     </div>
+
     <div id="info-box" class="info-box">
         <h3>Selecione uma etapa para ver mais detalhes</h3>
         <p>Informações sobre a trilha de aprendizado aparecerão aqui quando você clicar em uma etapa da linha do tempo.</p>
-        <p>Clique nas etapas acima para visualizar os detalhes de cada uma.</p> 
+        <p>Clique nas etapas acima para visualizar os detalhes de cada uma.</p>
     </div>
 </div>
+
+<!-- Popup para imagens -->
+<div id="image-popup" class="image-popup">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <img id="popup-img" src="" alt="Imagem ampliada">
+    </div>
+</div>
+
 <script src="{% static 'Js/trilha.js' %}"></script>
 {% endblock %}

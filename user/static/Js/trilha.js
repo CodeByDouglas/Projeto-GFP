@@ -1,18 +1,75 @@
+
+const staticBaseUrl = "/static/"; // Caminho base para arquivos estáticos
 const infoContent = {
     1: {
         title: "Módulo 1: Introdução ao GFP",
         description: "- A gestão financeira é fundamental para manter o equilíbrio entre receitas e despesas, permitindo que indivíduos ou empresas alcancem seus objetivos financeiros em diferentes horizontes de tempo. Envolve planejamento, organização e controle eficiente dos recursos financeiros. A boa gestão permite evitar dívidas excessivas, criar reservas de emergência, investir para o futuro e aumentar a segurança financeira, o que resulta em mais tranquilidade e controle sobre o próprio dinheiro.",
+        tutorial: {
+            intro: "Aprenda como utilizar as principais páginas do site para organizar suas finanças.",
+            pages: [
+                {name: "Menu lateral",
+                 steps: [
+                    {
+                        text: "Menu de aceso para as outras páginas do site:",
+                        image: `${staticBaseUrl}image/MENU.png`
+                    }
+                 ]
+                },
+                {
+                    name: "Dashboard",
+                    steps: [
+                        {
+                            text: "1. Acesse o Dashboard para uma visão geral do seu status financeiro, incluindo receitas, despesas e saldo atual:",
+                            image: `${staticBaseUrl}image/DASHBOARD.png`
+                        }
+            ]},
+                
+                 {   name: "Perfil",
+                    steps: [
+                        {
+                            text: "1. Acesse o Perfil para atualizar suas informações pessoais, como nome, senha e rendas:",
+                            image: `${staticBaseUrl}image/PERFIL.png`
+                        }
+                    ]
+                 },
+                {
+                    name: "Extrato de Despesas",
+                    steps: [
+                        {
+                            text: "1. No Extrato de Despesas, visualize todas as suas transações organizadas por data:",
+                            image: `${staticBaseUrl}image/EXTRATO.png`
+                        },
+                    ]
+                },
+                {
+                    name: "Lançamento de Despesas",
+                    steps: [
+                        {
+                            text: "<b>Ocasional</b>: Adicione despesas que não apresentam uma recorrência fixa, que de fato acontecem ocasionalmente durante o mês:",
+                            image: `${staticBaseUrl}image/DESP AVULSA.png`
+                        },
+                        {
+                            text: "<b>Fixa</b>: Adicione despesas que se repetem durante todos os meses. Adicione uma data para a fizalização.Ex: data anual:",
+                            image: `${staticBaseUrl}image/DESP FIXAS.png`
+                        },
+                        {
+                            text: "<b>Parcelada</b>: Adicione despesas divididas em prestações, sendo elas despesas que não são pagas no valor total de uma só vez:",
+                            image: `${staticBaseUrl}image/DESP FIXAS-1.png`
+                        }
+                    ]
+                }
+            ]
+        },
         dica: "Dica: Explore mais conteúdos no site para aprender técnicas de gestão financeira e manter suas finanças sob controle!"
     },
     2: {
         title: "Módulo 2: Fundamentos de Finanças Pessoais",
-        description: "- Conceitos fundamentais para entender e gerir suas finanças de forma eficaz:",
-        items: [
-            "Receita: Refere-se a todo o dinheiro que uma pessoa recebe, incluindo salário, aluguéis, rendimentos de investimentos ou outras fontes.",
-            "Despesa: São os gastos ou saídas de dinheiro para cobrir necessidades e desejos, como contas mensais, alimentação, transporte e lazer.",
-            "Ativos: Bens ou investimentos que geram renda ou aumentam o patrimônio, como imóveis, ações e investimentos em poupança.",
-            "Passivos: Obrigações financeiras ou dívidas que demandam pagamento, incluindo empréstimos, financiamentos e cartões de crédito. Saber distinguir entre ativos e passivos é essencial para construir riqueza de forma sólida e sustentável."
-        ],
+        description: `- Conceitos fundamentais para entender e gerir suas finanças de forma eficaz:
+        <div style="margin-left: 20px">
+            Receita: Refere-se a todo o dinheiro que uma pessoa recebe, incluindo salário, aluguéis, rendimentos de investimentos ou outras fontes.
+            Despesa: São os gastos ou saídas de dinheiro para cobrir necessidades e desejos, como contas mensais, alimentação, transporte e lazer.
+            Ativos: Bens ou investimentos que geram renda ou aumentam o patrimônio, como imóveis, ações e investimentos em poupança.
+            Passivos: Obrigações financeiras ou dívidas que demandam pagamento, incluindo empréstimos, financiamentos e cartões de crédito. Saber distinguir entre ativos e passivos é essencial para construir riqueza de forma sólida e sustentável.</div>`,
         dica: "Dica: Aprenda a criar um orçamento pessoal e a controlar suas despesas para melhorar sua saúde financeira."
     },
     3: {
@@ -87,15 +144,69 @@ const infoContent = {
 function showInfo(step) {
     const infoBox = document.getElementById("info-box");
 
-    // Verificações para evitar que "undefined" apareça
-    const title = infoContent[step].title ? `<h3>${infoContent[step].title}</h3>` : '';
-    const description = infoContent[step].description ? `<p>${infoContent[step].description}</p>` : '';
-    const dica = infoContent[step].dica ? `<p>${infoContent[step].dica}</p>` : '';
+    const content = infoContent[step];
+    if (!content) {
+        infoBox.innerHTML = "<p>Informações não disponíveis para este módulo.</p>";
+        return;
+    }
 
-    // Montando o conteúdo final
+    const title = content.title ? `<h3>${content.title}</h3>` : '';
+    const description = content.description ? `<p>${content.description}</p>` : '';
+    const dica = content.dica ? `<p>${content.dica}</p>` : '';
+
+    let itemsHTML = '';
+    if (content.items) {
+        itemsHTML = '<ul>';
+        content.items.forEach(item => {
+            itemsHTML += `<li>${item}</li>`;
+        });
+        itemsHTML += '</ul>';
+    }
+
+    let tutorialHTML = '';
+    if (content.tutorial) {
+        tutorialHTML += `<h4>Tutorial</h4>`;
+        tutorialHTML += `<p>${content.tutorial.intro}</p>`;
+        content.tutorial.pages.forEach(page => {
+            tutorialHTML += `<h5>${page.name}</h5>`;
+            page.steps.forEach(step => {
+                tutorialHTML += `
+                    <div style="margin-bottom: 20px;">
+                        <p>${step.text}</p>
+                        <img 
+                            src="${step.image}" 
+                            alt="${page.name} Tutorial Step" 
+                            style="width: 100%; max-width: 400px; height: auto; display: block; margin: 20px auto; cursor: pointer;"
+                            onclick="openPopup('${step.image}')">
+                    </div>
+                `;
+            });
+        });
+    }
+
     infoBox.innerHTML = `
         ${title}
         ${description}
+        ${itemsHTML}
+        ${tutorialHTML}
         ${dica}
     `;
+}
+
+function openPopup(imageSrc) {
+    const popup = document.getElementById("image-popup");
+    const popupImg = document.getElementById("popup-img");
+
+    // Define o caminho da imagem no popup
+    popupImg.src = imageSrc;
+
+    // Exibe o popup
+    popup.style.display = "flex";
+}
+
+function closePopup() {
+    const popup = document.getElementById("image-popup");
+
+    // Oculta o popup
+    popup.style.display = "none";
 }
