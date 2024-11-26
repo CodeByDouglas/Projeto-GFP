@@ -16,7 +16,6 @@ __pycache__/
 # Diretórios de build
 build/
 dist/
-Calculos/
 
 # Banco de dados SQLite
 db.sqlite3
